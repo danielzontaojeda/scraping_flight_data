@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta
-from flight import Flight
+from scraping_flight_data.flight import Flight
 
 
 # hour parameter can be 6, 12 or 18
@@ -21,6 +21,7 @@ def close_flightstats_privacy_message(driver):
 
 
 def get_flight_info(days, time):
+    collection = []
     driver = webdriver.Chrome()
 
     # Dates for 1, 15 and 30 days from now
@@ -28,15 +29,16 @@ def get_flight_info(days, time):
 
     driver.get(get_flightstats_url(date, time))
 
-    close_flightstats_privacy_message(driver)
+    # close_flightstats_privacy_message(driver)
     flight_list = driver.find_elements(By.CSS_SELECTOR, "a[class='table__A-sc-1x7nv9w-2 hnJChl']")
 
     for flights in flight_list:
         flight_string = flights.text.split("\n")
         flight_string.insert(0, str(date.strftime("%d/%m/%Y")))
-        print(flight_string)
-        # flight = Flight(flight_string[0], flight_string[1], flight_string[2],
-        #                 flight_string[3], flight_string[4])
-        # print(flight.plane.flight_number, flight.company, flight.time_departure, flight.time_arrival, flight.departure_airport)
+        flight = Flight(flight_string)
 
+        collection.append(flight)
+
+    driver.close()
+    return collection
 
