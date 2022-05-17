@@ -27,4 +27,9 @@ class Flight:
         self.airport_name = flight_string[6]
         self.airplane = Airplane(get_airplane_number(flight_string[1]), 'model',
                                  get_company_code(flight_string[1]), 'capacity')
+        self.price_mais = 0.0
+        self.price = 0.0
 
+    def set_price(self, price_mais, price):
+        self.price_mais = price_mais
+        self.price = price
