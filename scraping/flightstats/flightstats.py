@@ -1,8 +1,8 @@
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from datetime import datetime, timedelta
 from scraping_flight_data.flight import Flight
+from scraping_flight_data.scraping.flightstats.flightstats_details_page import get_flight_details
 
 
 # hour parameter can be 6, 12 or 18
@@ -11,15 +11,7 @@ def get_flightstats_url(date, hour):
            f"?year={date.year}&month={date.month}&date={date.day}&hour={hour}"
 
 
-def close_flightstats_privacy_message(driver):
-    try:
-        driver.implicitly_wait(4)
-        accept_button = driver.find_element(By.ID, "onetrust-accept-btn-handler")
-        accept_button.click()
-    except NoSuchElementException:
-        print("close_flightstats_privacy_message couldn't find the element")
-
-
+# Returns a collections with flights
 def get_flight_info(days, time):
     collection = []
     driver = webdriver.Chrome()
@@ -29,16 +21,15 @@ def get_flight_info(days, time):
 
     driver.get(get_flightstats_url(date, time))
 
-    # close_flightstats_privacy_message(driver)
     flight_list = driver.find_elements(By.CSS_SELECTOR, "a[class='table__A-sc-1x7nv9w-2 hnJChl']")
 
     for flights in flight_list:
         flight_string = flights.text.split("\n")
         flight_string.insert(0, str(date.strftime("%d/%m/%Y")))
         flight = Flight(flight_string)
-
         collection.append(flight)
 
+    get_flight_details(driver, collection)
     driver.close()
     return collection
 

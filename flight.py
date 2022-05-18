@@ -1,7 +1,7 @@
 class Airplane:
-    def __init__(self, airplane_number, model, company, capacity):
+    def __init__(self, airplane_number, company, capacity):
         self.airplane_number = airplane_number
-        self.model = model
+        self.model = ''
         self.company = company
         self.capacity = capacity
 
@@ -25,11 +25,12 @@ class Flight:
         self.airport_code = flight_string[4]
         self.company_name = flight_string[5]
         self.airport_name = flight_string[6]
-        self.airplane = Airplane(get_airplane_number(flight_string[1]), 'model',
+        self.airplane = Airplane(get_airplane_number(flight_string[1]),
                                  get_company_code(flight_string[1]), 'capacity')
-        self.price_mais = 0.0
         self.price = 0.0
 
-    def set_price(self, price_mais, price):
-        self.price_mais = price_mais
+    def set_price(self, price):
         self.price = price
+
+    def set_airplane_model(self, model):
+        self.airplane.model = model

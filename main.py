@@ -1,4 +1,4 @@
-from scraping import flightstats
+from scraping.flightstats import flightstats
 from scraping.azul import azul
 from flight import Flight
 
@@ -7,7 +7,7 @@ def print_flights(flights: Flight):
     for i in flights:
         print(f"{i.date}, {i.airplane.company} {i.airplane.airplane_number}, {i.time_departure}, "
               f"{i.time_arrival}, {i.airport_code}, {i.company_name}, {i.airport_name}, "
-              f"{i.price_mais}, {i.price}")
+              f"{i.price}, {i.airplane.model}")
 
 
 def process_flight(flights):
@@ -18,8 +18,8 @@ def process_flight(flights):
 
 def get_1d():
     flights = flightstats.get_flight_info(1, 6)
-    flights += flightstats.get_flight_info(1, 12)
-    flights += flightstats.get_flight_info(1, 18)
+    # flights += flightstats.get_flight_info(1, 12)
+    # flights += flightstats.get_flight_info(1, 18)
     return flights
 
 
