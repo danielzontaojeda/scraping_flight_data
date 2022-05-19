@@ -1,9 +1,8 @@
 from scraping_flight_data.flight import Flight
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from scraping_flight_data.util.data_util import string_to_float
 import time
-from re import sub
-from decimal import Decimal
 
 
 def get_flight_indice(flight, dep_time):
@@ -13,12 +12,12 @@ def get_flight_indice(flight, dep_time):
     return i
 
 
-def string_to_float(string):
-    money = string[0].replace('R', '')
-    money = money.replace('.', '')
-    money = money.replace(',', '.')
-    value = Decimal(sub(r'[^\d.]', '', money))
-    return value
+# def string_to_float(string):
+#     money = string[0].replace('R', '')
+#     money = money.replace('.', '')
+#     money = money.replace(',', '.')
+#     value = Decimal(sub(r'[^\d.]', '', money))
+#     return value
 
 
 def set_price(driver: webdriver, flight: Flight):
@@ -29,6 +28,6 @@ def set_price(driver: webdriver, flight: Flight):
     i = get_flight_indice(flight, dep_time)
 
     p = price[i].text.split("\n")
-    p = string_to_float(p)
+    p = string_to_float(p[0])
 
     Flight.set_price(flight, p)

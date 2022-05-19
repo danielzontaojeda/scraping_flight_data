@@ -1,5 +1,3 @@
-import time
-
 from scraping.flightstats import flightstats
 from scraping.azul import azul
 from scraping.gol import gol

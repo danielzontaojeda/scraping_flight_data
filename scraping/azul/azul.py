@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from scraping_flight_data.scraping.azul import azul_prices_page
+from scraping_flight_data.util.scraping_util import set_browser_options, run_antidetection_script
 import time
 
 
@@ -50,23 +51,10 @@ def go_to_price_page(driver, flight):
 
 def get_flight_price(flight: Flight):
 
-    options = webdriver.ChromeOptions()
-    # webdriver options to prevent automation detection
-    options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_argument("start-maximized")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=set_browser_options())
     driver.get("https://www.voeazul.com.br/")
 
-    # Sets navigator.webdriver to undefined to prevent detection
-    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-
-    driver.execute_cdp_cmd('Network.setUserAgentOverride', {
-        "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
-                     '(KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
-    print(driver.execute_script("return navigator.userAgent;"))
+    run_antidetection_script(driver)
 
     go_to_price_page(driver, flight)
     azul_prices_page.set_price(driver, flight)

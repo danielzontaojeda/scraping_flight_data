@@ -1,9 +1,9 @@
 import time
-
-from scraping_flight_data.flight import Flight
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import re
+from scraping_flight_data.flight import Flight
+from scraping_flight_data.util.data_util import string_to_float
+from scraping_flight_data.util.scraping_util import set_browser_options, run_antidetection_script
 
 
 def get_flight_indice(flight_list, flight:Flight):
@@ -19,21 +19,6 @@ def get_flight_indice(flight_list, flight:Flight):
     return -1
 
 
-# def string_to_float(string):
-#     money = string.replace('.', '')
-#     money = money.replace(',', '.')
-#     money = money.replace('R', '')
-#     money = money.replace('$', '')
-#     money = money.replace(' ', '')
-#     return money
-
-
-def string_to_float(string):
-    pattern = "[\d]+[\.]?[0-9]+[,]?[0-9]{2}"
-    result = re.search(pattern, string).group().replace('.', '').replace(',', '.')
-    return float(result)
-
-
 def price_scraper(driver: webdriver, flight: Flight):
     flight_list = driver.find_elements(By.CSS_SELECTOR,
                                        "div[class='p-select-flight__accordion ng-tns-c148-0 ng-star-inserted']"
@@ -45,11 +30,16 @@ def price_scraper(driver: webdriver, flight: Flight):
 
 
 def get_flight_price(flight: Flight):
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=set_browser_options())
     driver.maximize_window()
     date = flight.date.replace('/', '-')
     driver.get(f"https://b2c.voegol.com.br/compra/busca-parceiros?pv=br"
                f"&tipo=DF&de={flight.airport_code}&para=IGU&ida={date}&ADT=1&CHD=0&INF=0")
-    time.sleep(10)
+
+    # Making sure site has enough time to load
+    time.sleep(3)
+
+    run_antidetection_script(driver)
+
     price = price_scraper(driver, flight)
     flight.set_price(price)
