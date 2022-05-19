@@ -30,8 +30,11 @@ def go_to_price_page(driver, flight):
 
     # Selects 'somente ida' tab
     driver.implicitly_wait(5)
-    somente_ida = driver.find_element(By.CSS_SELECTOR, "input[aria-label='somente ida'")
-    driver.execute_script("arguments[0].click();", somente_ida)
+    somente_ida = driver.find_elements(By.CSS_SELECTOR,
+                                       "input[name='ControlGroupSearch$SearchMainSearchView$RadioButtonMarketStructure'"
+                                       )
+    button = somente_ida[1]
+    driver.execute_script("arguments[0].click();", button)
 
     # Insert fields
     insert_departure_field(driver, flight)
@@ -47,9 +50,23 @@ def go_to_price_page(driver, flight):
 
 def get_flight_price(flight: Flight):
 
-    driver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    # webdriver options to prevent automation detection
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument("start-maximized")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+
+    driver = webdriver.Chrome(options=options)
     driver.get("https://www.voeazul.com.br/")
-    driver.maximize_window()
+
+    # Sets navigator.webdriver to undefined to prevent detection
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
+    driver.execute_cdp_cmd('Network.setUserAgentOverride', {
+        "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
+                     '(KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
+    print(driver.execute_script("return navigator.userAgent;"))
 
     go_to_price_page(driver, flight)
     azul_prices_page.set_price(driver, flight)
