@@ -6,16 +6,6 @@ class Airplane:
         self.capacity = capacity
 
 
-def get_company_code(string):
-    code = string.split(' ')
-    return code[0]
-
-
-def get_airplane_number(string):
-    code = string.split(' ')
-    return code[1]
-
-
 class Flight:
     def __init__(self, flight_string):
         self.date = flight_string[0]
@@ -29,8 +19,23 @@ class Flight:
                                  get_company_code(flight_string[1]), 'capacity')
         self.price = 0.0
 
+    def __str__(self):
+        return (f"{self.date}, {self.airplane.company} {self.airplane.airplane_number}, {self.time_departure}, "
+        f"{self.time_arrival}, {self.airport_code}, {self.company_name}, {self.airport_name}, "
+        f"{self.price}, {self.airplane.model}")
+
     def set_price(self, price):
         self.price = price
 
     def set_airplane_model(self, model):
         self.airplane.model = model
+
+
+def get_company_code(string) -> str:
+    code = string.split(' ')
+    return code[0]
+
+
+def get_airplane_number(string) -> str:
+    code = string.split(' ')
+    return code[1]

@@ -1,7 +1,7 @@
 import re
 
 
-def string_to_float(string):
+def string_to_float(string) -> float:
     pattern = "[\d]+[\.]?[0-9]+[,]?[0-9]{2}"
     result = re.search(pattern, string).group().replace('.', '').replace(',', '.')
     return float(result)

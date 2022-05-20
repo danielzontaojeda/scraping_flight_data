@@ -5,27 +5,20 @@ from scraping_flight_data.util.data_util import string_to_float
 import time
 
 
-def get_flight_indice(flight, dep_time):
+def get_flight_position(flight, flight_list) -> int:
+    """Return flight position in flight_list."""
     i = 0
-    while dep_time[i].text != flight.time_departure:
+    while flight_list[i].text != flight.time_departure:
         i += 1
     return i
 
 
-# def string_to_float(string):
-#     money = string[0].replace('R', '')
-#     money = money.replace('.', '')
-#     money = money.replace(',', '.')
-#     value = Decimal(sub(r'[^\d.]', '', money))
-#     return value
-
-
 def set_price(driver: webdriver, flight: Flight):
-
+    """Set price in flight object."""
     time.sleep(10)
     dep_time = driver.find_elements(By.CSS_SELECTOR, "div[class='dep-time']")
     price = driver.find_elements(By.CSS_SELECTOR, "div[class='flight-price-container -azul'")
-    i = get_flight_indice(flight, dep_time)
+    i = get_flight_position(flight, dep_time)
 
     p = price[i].text.split("\n")
     p = string_to_float(p[0])

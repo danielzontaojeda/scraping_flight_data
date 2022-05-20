@@ -2,10 +2,9 @@ from selenium import webdriver
 from fake_useragent import UserAgent
 
 
-def set_browser_options():
+def set_browser_options() -> webdriver.ChromeOptions:
     options = webdriver.ChromeOptions()
     ua = UserAgent()
-    useragent = ua.random
 
     # webdriver options to prevent automation detection
     options.add_argument('--disable-blink-features=AutomationControlled')
@@ -13,7 +12,7 @@ def set_browser_options():
 
     # Changes userAgent to prevent detection
     try:
-        options.add_argument(f"user-agent={useragent}")
+        options.add_argument(f"user-agent={ua.random}")
     except IndexError:
         print("UserAgent error.")
 

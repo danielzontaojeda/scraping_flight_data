@@ -6,14 +6,17 @@ from scraping_flight_data.scraping.flightstats.flightstats_details_page import g
 from scraping_flight_data.util.scraping_util import set_browser_options, run_antidetection_script
 
 
-# hour parameter can be 6, 12 or 18
-def get_flightstats_url(date, hour):
+def get_flightstats_url(date, hour) -> str:
+    """ Returns url for a date and hour
+
+        hour parameter can be 6, 12 or 18
+    """
     return f"https://www.flightstats.com/v2/flight-tracker/arrivals/IGU/" \
            f"?year={date.year}&month={date.month}&date={date.day}&hour={hour}"
 
 
-# Returns a collections with flights
-def get_flight_info(days, time):
+def get_flight_info(days, time) -> list[Flight]:
+    """Returns a collection with flights from day/time."""
     collection = []
     driver = webdriver.Chrome(options=set_browser_options())
 
@@ -35,4 +38,3 @@ def get_flight_info(days, time):
     get_flight_details(driver, collection)
     driver.close()
     return collection
-
