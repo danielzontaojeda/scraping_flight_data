@@ -2,12 +2,12 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from scraping_flight_data.flight import Flight
-from scraping_flight_data.util.data_util import string_to_float
-from scraping_flight_data.util.scraping_util import set_browser_options, run_antidetection_script
+from scraping_flight_data.util import data_util
+from scraping_flight_data.util import scraping_util
 
 
 def get_flight_position(flight_list, flight: Flight) -> int:
-    """Returns the position the flight is in the flight_list."""
+    """Return the position the flight is in the flight_list."""
     i = 0
     for f in flight_list:
         origin = f.text.split('\n')
@@ -33,22 +33,22 @@ def get_flight_position(flight_list, flight: Flight) -> int:
 
 
 def price_scraper(driver: webdriver, flight: Flight) -> float:
-    """Returns str with flight price."""
+    """Return str with flight price."""
     flight_list = driver.find_elements(By.CSS_SELECTOR,
                                        "div[class='p-select-flight__accordion ng-tns-c148-0 ng-star-inserted']"
                                        )
     i = get_flight_position(flight_list, flight)
     if i >= 0:
         flight_data = flight_list[i].text.split('\n')
-        price = string_to_float(flight_data[-1])
+        price = data_util.string_to_float(flight_data[-1])
         return price
     else:
         return 0.0
 
 
 def set_flight_price(flight: Flight):
-    """Looks up price flight and sets it in flight object."""
-    driver = webdriver.Chrome(options=set_browser_options())
+    """Look up price flight and sets it in flight object."""
+    driver = webdriver.Chrome(options=scraping_util.set_browser_options())
     driver.maximize_window()
     date = flight.date.replace('/', '-')
     driver.get(f"https://b2c.voegol.com.br/compra/busca-parceiros?pv=br"
@@ -57,7 +57,7 @@ def set_flight_price(flight: Flight):
     # Making sure site has enough time to load
     time.sleep(10)
 
-    run_antidetection_script(driver)
+    scraping_util.run_antidetection_script(driver)
 
     price = price_scraper(driver, flight)
     flight.set_price(price)

@@ -1,8 +1,9 @@
-from scraping.flightstats import flightstats
+import time
+from flight import Flight
 from scraping.azul import azul
+from scraping.flightstats import flightstats
 from scraping.gol import gol
 from scraping_flight_data.scraping.latam import latam
-from flight import Flight
 
 
 def print_flights(flights: list[Flight]):
@@ -10,21 +11,22 @@ def print_flights(flights: list[Flight]):
         print(i)
 
 
-def process_flight(flights):
+def process_flight(flights: list[Flight]):
     for i in flights:
         if i.company_name == "Azul":
+            time.sleep(60)
             azul.set_flight_price(i)
         elif "Gol" in i.company_name:
             gol.set_flight_price(i)
-        elif "LATAM" in i.company_name(i):
+        elif "LATAM" in i.company_name:
             latam.set_flight_price(i)
 
 
 def get_1d() -> list[Flight]:
-    # flights = flightstats.get_flight_info(1, 6)
+    flights = flightstats.get_flight_info(1, 6)
     # flights += flightstats.get_flight_info(1, 12)
     # flights += flightstats.get_flight_info(1, 18)
-    flights = flightstats.get_flight_info(1, 18)
+    # flights = flightstats.get_flight_info(1, 6)
     return flights
 
 
