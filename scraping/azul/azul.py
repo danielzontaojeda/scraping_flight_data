@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from scraping_flight_data.flight import Flight
-from scraping_flight_data.scraping import azul
+from scraping_flight_data.scraping.azul import azul_prices_page
 from scraping_flight_data.util import scraping_util
 
 
@@ -87,5 +87,5 @@ def set_flight_price(flight: Flight):
     scraping_util.run_antidetection_script(driver)
 
     go_to_price_page(driver, flight)
-    azul.azul_prices_page.set_price(driver, flight)
+    azul_prices_page.set_price(driver, flight)
 

@@ -13,7 +13,7 @@ def print_flights(flights: list[Flight]):
 
 def process_flight(flights: list[Flight]):
     for i in flights:
-        if i.company_name == "Azul":
+        if "Azul" in i.company_name:
             time.sleep(60)
             azul.set_flight_price(i)
         elif "Gol" in i.company_name:
@@ -23,10 +23,10 @@ def process_flight(flights: list[Flight]):
 
 
 def get_1d() -> list[Flight]:
-    flights = flightstats.get_flight_info(1, 6)
+    # flights = flightstats.get_flight_info(1, 6)
     # flights += flightstats.get_flight_info(1, 12)
     # flights += flightstats.get_flight_info(1, 18)
-    # flights = flightstats.get_flight_info(1, 6)
+    flights = flightstats.get_flight_info(1, 12)
     return flights
 
 
