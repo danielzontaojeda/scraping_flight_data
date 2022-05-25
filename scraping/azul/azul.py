@@ -58,15 +58,8 @@ def click_search_button(driver):
     search_button.click()
 
 
-def go_to_price_page(driver, flight):
-    """Fill flight details in azul homepage and click in search.
-
-        It's necessary to change currency to real if using vpn or proxy.
-    """
-    # set_currency_real(driver)
-    # time.sleep(5)
-
-    # Selects 'somente ida' tab
+def select_somente_ida(driver):
+    """Select 'somente ida' in webpage."""
     driver.implicitly_wait(5)
     somente_ida = driver.find_elements\
         (By.CSS_SELECTOR,
@@ -74,6 +67,14 @@ def go_to_price_page(driver, flight):
         )
     button = somente_ida[1]
     driver.execute_script("arguments[0].click();", button)
+
+
+def go_to_price_page(driver, flight):
+    """Fill flight details in azul homepage and click in search.
+
+        It's necessary to change currency to real if using vpn or proxy.
+    """
+    select_somente_ida(driver)
     fill_fields(driver, flight)
     click_search_button(driver)
 

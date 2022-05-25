@@ -7,10 +7,10 @@ from scraping_flight_data.util import data_util
 
 def get_flight_position(flight, flight_list) -> int:
     """Return flight position in flight_list."""
-    i = 0
-    while flight_list[i].text != flight.time_departure:
-        i += 1
-    return i
+    for i, departure in enumerate(flight_list):
+        if departure == flight.time_departure:
+            return i
+    return -1
 
 
 def set_price(driver: webdriver, flight: Flight):

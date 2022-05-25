@@ -12,12 +12,6 @@ def get_flight_position(flight_list, flight: Flight) -> int:
     for f in flight_list:
         origin = f.text.split('\n')
         time_departure = ''
-        # time_departure = origin[1].split('-')
-        # try:
-        #     time_departure = time_departure[1].replace(' ', '')
-        # # We get an index error when there is a promotion
-        # except IndexError:
-        # TODO: see if this works when there is no promotion
         for element in origin:
             if flight.airport_code in element:
                 time_departure = element

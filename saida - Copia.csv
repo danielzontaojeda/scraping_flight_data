@@ -1,0 +1,47 @@
+"sep=,"
+Data,Avião,Hora de saída,Hora de chegada,Aeroporto,Compania,Cidade,Preço,Modelo avião
+25/05/2022,AD 2600,06:00,07:15,CWB,Azul,Curitiba,978.38,Embraer 195 and Legacy 1000
+25/05/2022,LA 3336,06:15,07:55,GRU,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Sao Paulo,3069.82,Airbus A321 (sharklets)
+25/05/2022,JL 5548,06:15,07:55,GRU,JAL / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3336,Sao Paulo,3069.82,Airbus A321 (sharklets)
+25/05/2022,LA 3108,08:15,09:55,CGH,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Sao Paulo,3074.23,Airbus A319
+25/05/2022,LA 3892,08:45,10:00,CWB,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Curitiba,2823.61,Airbus A321 (sharklets)
+25/05/2022,AD 2406,08:40,10:20,VCP,Azul,Campinas,3382.55,Airbus A320neo
+25/05/2022,G3 1170,09:50,11:40,GRU,Gol,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,AA 7649,09:50,11:40,GRU,American Airlines / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,AF 1945,09:50,11:40,GRU,Air France / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,AM 8179,09:50,11:40,GRU,Aeromexico / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,AV 4658,09:50,11:40,GRU,SA AVIANCA / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,CM 3506,09:50,11:40,GRU,Copa Airlines / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,EK 3627,09:50,11:40,GRU,Emirates / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,TK 8415,09:50,11:40,GRU,Turkish Airlines / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,TP 4072,09:50,11:40,GRU,TAP Air Portugal / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,UX 2625,09:50,11:40,GRU,Air Europa / Operated by Gol 1170,Sao Paulo,0.0,Boeing 737MAX 8 Passenger
+25/05/2022,AD 4400,12:10,13:15,CWB,Azul,Curitiba,978.38,Embraer 195 and Legacy 1000
+25/05/2022,AD 4181,15:55,17:10,POA,Azul,Porto Alegre,1779.95,Embraer 195 and Legacy 1000
+25/05/2022,LA 3338,16:20,18:00,GRU,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Sao Paulo,2636.42,Airbus A320
+25/05/2022,AM 8526,16:20,18:00,GRU,Aeromexico / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,BA 7655,16:20,18:00,GRU,British Airways / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,IB 7005,16:20,18:00,GRU,Iberia / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,LH 4692,16:20,18:00,GRU,Lufthansa / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,LX 9716,16:20,18:00,GRU,SWISS / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,QR 5274,16:20,18:00,GRU,Qatar Airways / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,LA 3894,16:45,18:00,CWB,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Curitiba,1341.38,Airbus A320
+25/05/2022,LA 3338,16:20,18:00,GRU,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Sao Paulo,2636.42,Airbus A320
+25/05/2022,AM 8526,16:20,18:00,GRU,Aeromexico / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,BA 7655,16:20,18:00,GRU,British Airways / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,IB 7005,16:20,18:00,GRU,Iberia / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,LH 4692,16:20,18:00,GRU,Lufthansa / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,LX 9716,16:20,18:00,GRU,SWISS / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,QR 5274,16:20,18:00,GRU,Qatar Airways / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3338,Sao Paulo,2636.42,Airbus A320
+25/05/2022,LA 3894,16:45,18:00,CWB,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Curitiba,1341.38,Airbus A320
+25/05/2022,AD 4864,17:15,18:50,VCP,Azul,Campinas,3382.55,Embraer 195 and Legacy 1000
+25/05/2022,LA 3110,17:30,19:10,CGH,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Sao Paulo,2845.83,Airbus A320
+25/05/2022,G3 1174,20:50,22:40,GRU,Gol,Sao Paulo,2635.42,Boeing 737-800 Passenger
+25/05/2022,AC 9833,20:50,22:40,GRU,Air Canada / Operated by Gol 1174,Sao Paulo,2635.42,Boeing 737-800 Passenger
+25/05/2022,EK 3625,20:50,22:40,GRU,Emirates / Operated by Gol 1174,Sao Paulo,2635.42,Boeing 737-800 Passenger
+25/05/2022,ET 4150,20:50,22:40,GRU,Ethiopian Airlines / Operated by Gol 1174,Sao Paulo,2635.42,Boeing 737-800 Passenger
+25/05/2022,KL 9390,20:50,22:40,GRU,KLM / Operated by Gol 1174,Sao Paulo,2635.42,Boeing 737-800 Passenger
+25/05/2022,TP 4001,20:50,22:40,GRU,TAP Air Portugal / Operated by Gol 1174,Sao Paulo,2635.42,Boeing 737-800 Passenger
+25/05/2022,AD 4233,21:35,22:50,CWB,Azul,Curitiba,978.38,Embraer 195 and Legacy 1000
+25/05/2022,LA 3340,21:40,23:20,GRU,LATAM Airlines / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines,Sao Paulo,2636.42,Airbus A319
+25/05/2022,QR 5275,21:40,23:20,GRU,Qatar Airways / Operated by LATAM Airlines Brasil on behalf of LATAM Airlines 3340,Sao Paulo,2636.42,Airbus A319

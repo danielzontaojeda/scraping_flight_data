@@ -1,4 +1,5 @@
 import time
+from scraping_flight_data.output.excel import output
 from flight import Flight
 from scraping.azul import azul
 from scraping.flightstats import flightstats
@@ -7,8 +8,8 @@ from scraping_flight_data.scraping.latam import latam
 
 
 def print_flights(flights: list[Flight]):
-    for i in flights:
-        print(i)
+    for flight in flights:
+        print(flight)
 
 
 def process_flight(flights: list[Flight]):
@@ -23,17 +24,20 @@ def process_flight(flights: list[Flight]):
 
 
 def get_1d() -> list[Flight]:
-    # flights = flightstats.get_flight_info(1, 6)
-    # flights += flightstats.get_flight_info(1, 12)
-    # flights += flightstats.get_flight_info(1, 18)
-    flights = flightstats.get_flight_info(1, 12)
+    # flights = flightstats.get_flight_info(2, 6)
+    # flights += flightstats.get_flight_info(2, 12)
+    # flights += flightstats.get_flight_info(2, 18)
+    flights = flightstats.get_flight_info(1, 18)
     return flights
 
 
 def main():
+    start = time.perf_counter()
     flights = get_1d()
     process_flight(flights)
-    print_flights(flights)
+    output.write_file(flights)
+    end = time.perf_counter()
+    print(f"time spent: {end-start:.2f} seconds")
 
 
 if __name__ == '__main__':

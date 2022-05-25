@@ -20,15 +20,28 @@ class Flight:
         self.price = 0.0
 
     def __str__(self):
-        return (f"{self.date}, {self.airplane.company} {self.airplane.airplane_number}, {self.time_departure}, "
-        f"{self.time_arrival}, {self.airport_code}, {self.company_name}, {self.airport_name}, "
-        f"{self.price}, {self.airplane.model}")
+        return (f"{self.date},{self.airplane.company} {self.airplane.airplane_number},{self.time_departure},"
+        f"{self.time_arrival},{self.airport_code},{self.company_name},{self.airport_name},"
+        f"{self.price},{self.airplane.model}")
 
     def set_price(self, price):
         self.price = price
 
     def set_airplane_model(self, model):
         self.airplane.model = model
+
+    def get_list(self) -> list:
+        return [
+            self.date,
+            f"{self.airplane.company} {self.airplane.airplane_number}",
+            self.time_departure,
+            self.time_arrival,
+            self.airport_code,
+            self.company_name,
+            self.airport_name,
+            self.price,
+            self.airplane.model
+        ]
 
 
 def get_company_code(string) -> str:
