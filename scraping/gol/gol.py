@@ -9,7 +9,7 @@ from scraping_flight_data.util import scraping_util
 def get_flight_position(flight_list, flight: Flight) -> int:
     """Return the position the flight is in the flight_list."""
     i = 0
-    for f in flight_list:
+    for i, f in enumerate(flight_list):
         origin = f.text.split('\n')
         time_departure = ''
         for element in origin:
@@ -21,8 +21,8 @@ def get_flight_position(flight_list, flight: Flight) -> int:
 
         if time_departure == flight.time_departure:
             return i
-        else:
-            i += 1
+        # else:
+            # i += 1
     return -1
 
 
@@ -40,18 +40,23 @@ def price_scraper(driver: webdriver, flight: Flight) -> float:
         return 0.0
 
 
-def set_flight_price(flight: Flight):
-    """Look up price flight and sets it in flight object."""
-    driver = webdriver.Chrome(options=scraping_util.set_browser_options())
-    driver.maximize_window()
+def go_to_price_page(driver, flight):
+    """Go to latam webpage that contains flight price"""
     date = flight.date.replace('/', '-')
     driver.get(f"https://b2c.voegol.com.br/compra/busca-parceiros?pv=br"
                f"&tipo=DF&de={flight.airport_code}&para=IGU&ida={date}&ADT=1&CHD=0&INF=0")
+    driver.executeScript("window.focus();")
+    driver.maximize_window()
 
     # Making sure site has enough time to load
     time.sleep(10)
 
-    scraping_util.run_antidetection_script(driver)
 
+def set_flight_price(flight: Flight):
+    """Look up price flight and sets it in flight object."""
+    driver = webdriver.Firefox()
+    go_to_price_page(driver, flight)
+    scraping_util.run_antidetection_script(driver)
     price = price_scraper(driver, flight)
-    flight.set_price(price)
+    flight.set_price1d(price)
+    driver.close()

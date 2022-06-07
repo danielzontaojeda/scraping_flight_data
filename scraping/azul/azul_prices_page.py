@@ -8,7 +8,7 @@ from scraping_flight_data.util import data_util
 def get_flight_position(flight, flight_list) -> int:
     """Return flight position in flight_list."""
     for i, departure in enumerate(flight_list):
-        if departure == flight.time_departure:
+        if departure.text == flight.time_departure:
             return i
     return -1
 
@@ -20,7 +20,10 @@ def set_price(driver: webdriver, flight: Flight):
     price = driver.find_elements(By.CSS_SELECTOR, "div[class='flight-price-container -azul'")
     i = get_flight_position(flight, dep_time)
 
-    p = price[i].text.split("\n")
-    p = data_util.string_to_float(p[0])
+    if i >= 0:
+        p = price[i].text.split("\n")
+        p = data_util.string_to_float(p[0])
+    else:
+        p = 0.0
 
     Flight.set_price(flight, p)

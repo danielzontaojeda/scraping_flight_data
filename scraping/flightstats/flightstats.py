@@ -21,11 +21,8 @@ def get_flight_info(days, time) -> list[Flight]:
     driver = webdriver.Chrome(options=scraping_util.set_browser_options())
 
     date = datetime.now() + timedelta(days=days)
-
     driver.get(get_flightstats_url(date, time))
-
     scraping_util.run_antidetection_script(driver)
-
     flight_list = driver.find_elements(By.CSS_SELECTOR, "a[class='table__A-sc-1x7nv9w-2 hnJChl']")
 
     for flights in flight_list:

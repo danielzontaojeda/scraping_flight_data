@@ -72,7 +72,8 @@ def select_somente_ida(driver):
 def go_to_price_page(driver, flight):
     """Fill flight details in azul homepage and click in search.
 
-        It's necessary to change currency to real if using vpn or proxy.
+        It's necessary to change currency use set_currency_real()
+        if using vpn or proxy
     """
     select_somente_ida(driver)
     fill_fields(driver, flight)
@@ -82,11 +83,13 @@ def go_to_price_page(driver, flight):
 def set_flight_price(flight: Flight):
     """Look up price flight and set it in flight object."""
 
-    driver = webdriver.Chrome(options=scraping_util.set_browser_options())
+    driver = webdriver.Firefox()
     driver.get("https://www.voeazul.com.br/")
+    driver.maximize_window()
 
     scraping_util.run_antidetection_script(driver)
 
     go_to_price_page(driver, flight)
-    azul_prices_page.set_price(driver, flight)
+    azul_prices_page.set_price1d(driver, flight)
+    driver.close()
 

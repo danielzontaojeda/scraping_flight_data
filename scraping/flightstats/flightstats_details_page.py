@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 
 def get_flight_details(driver: webdriver, collection):
-    """Sets airplane_model in all flight object."""
+    """Set airplane_model in all flight object."""
     for flight in collection:
         date = flight.date.split("/")
         driver.get(f"https://www.flightstats.com/v2/flight-tracker/{flight.airplane.company}/"
