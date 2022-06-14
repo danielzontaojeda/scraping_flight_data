@@ -13,7 +13,7 @@ def get_flight_position(flight, flight_list) -> int:
     return -1
 
 
-def set_price(driver: webdriver, flight: Flight):
+def get_price(driver: webdriver, flight: Flight):
     """Set price in flight object."""
     time.sleep(10)
     dep_time = driver.find_elements(By.CSS_SELECTOR, "div[class='dep-time']")
@@ -26,4 +26,4 @@ def set_price(driver: webdriver, flight: Flight):
     else:
         p = 0.0
 
-    Flight.set_price(flight, p)
+    return p

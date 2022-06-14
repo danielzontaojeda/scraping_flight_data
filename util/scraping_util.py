@@ -2,17 +2,22 @@ from selenium import webdriver
 from fake_useragent import UserAgent
 
 
-def start_browser() -> webdriver:
-
-    profile = webdriver.FirefoxProfile()
+def start_browser(url) -> webdriver:
     options = webdriver.FirefoxOptions()
+    profile = webdriver.FirefoxProfile()
+    
     options.set_preference("dom.webnotifications.serviceworker.enabled", False)
     options.set_preference("dom.webnotifications.enabled", False)
-    options.add_argument('--headless')
     options.accept_untrusted_certs = True
-    browser = webdriver.Firefox(firefox_profile=profile,options=options)
 
-    return browser
+    driver = webdriver.Firefox(options=options)
+
+    driver.get(url)
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    driver.execute_script("window.focus();")
+    driver.maximize_window()
+
+    return driver
 
 
 def set_firefox_options() -> webdriver.FirefoxProfile:

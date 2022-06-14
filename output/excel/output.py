@@ -1,5 +1,6 @@
 import csv
 from scraping_flight_data.flight import Flight
+import os
 
 HEADER = [
     "Data",
@@ -15,11 +16,14 @@ HEADER = [
     "Modelo aviao"
 ]
 
+def is_file_empty(file):
+    return os.stat(file.name).st_size == 0
+
 
 def write_file(flights: list[Flight]):
     with open("saida.csv", "a", newline="") as file:
         writer = csv.writer(file)
-        if file.tell == 0:
+        if is_file_empty(file):
             writer.writerow(["sep=,"])
             writer.writerow(HEADER)
 

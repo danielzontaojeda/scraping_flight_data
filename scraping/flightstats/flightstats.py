@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from scraping_flight_data.flight import Flight
@@ -15,12 +15,12 @@ def get_flightstats_url(date, hour) -> str:
            f"?year={date.year}&month={date.month}&date={date.day}&hour={hour}"
 
 
-def get_flight_info(days, time) -> list[Flight]:
+def get_flight_info(time) -> list[Flight]:
     """Return a collection with flights from day/time."""
     collection = []
     driver = webdriver.Chrome(options=scraping_util.set_browser_options())
 
-    date = datetime.now() + timedelta(days=days)
+    date = datetime.now() 
     driver.get(get_flightstats_url(date, time))
     scraping_util.run_antidetection_script(driver)
     flight_list = driver.find_elements(By.CSS_SELECTOR, "a[class='table__A-sc-1x7nv9w-2 hnJChl']")

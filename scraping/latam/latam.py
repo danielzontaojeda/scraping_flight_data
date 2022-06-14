@@ -10,6 +10,8 @@ from selenium import webdriver
 
 from util import scraping_util
 
+URL_LATAM = "https://www.latamairlines.com/br/pt"
+
 
 def close_cookies_window(driver: webdriver):
     """Close accept cookies window."""
@@ -52,14 +54,14 @@ def go_to_price_page(driver, flight):
                f"origin={flight.airport_code}&outbound={flight_date}T15%3A00%3A00.000Z&"
                "destination=IGU&inbound=null&adt=1&chd=0&inf=0&"
                "trip=OW&cabin=Economy&redemption=false&sort=RECOMMENDED")
-    driver.executeScript("window.focus();")
+    driver.execute_script("window.focus();")
     driver.maximize_window()
     time.sleep(30)
 
 
 def set_flight_price(flight: Flight):
     """Look up price flight and set it in flight object."""
-    driver = webdriver.Firefox()
+    driver = scraping_util.start_browser(URL_LATAM)
     go_to_price_page(driver, flight)
     close_cookies_window(driver)
     flight.set_price1d(get_price(driver, flight))
