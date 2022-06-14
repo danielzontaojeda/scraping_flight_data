@@ -15,20 +15,23 @@ def print_flights(flights: list[Flight]):
 def process_flight(flights: list[Flight]):
     for flight in flights:
         if "Azul" in flight.company_name:
-            # azul.set_flight_price(flight)
             flight.price1d = azul.get_price_future(flight, 1)
             flight.price15d = azul.get_price_future(flight, 15)
             flight.price30d = azul.get_price_future(flight, 30)
-        # elif "Gol" in i.company_name:
-        #     gol.set_flight_price(i)
-        # if "LATAM" in i.company_name:
-        #     latam.set_flight_price(i)
+        elif "Gol" in flight.company_name:
+            flight.price1d = gol.get_flight_price(flight, 1)
+            flight.price15d = gol.get_flight_price(flight, 15)
+            flight.price30d = gol.get_flight_price(flight, 30)
+        elif "LATAM" in flight.company_name:
+            flight.price1d = latam.get_flight_price(flight, 1)
+            flight.price15d = latam.get_flight_price(flight, 15)
+            flight.price30d = latam.get_flight_price(flight, 30)
 
 
 def get_flight_list() -> list[Flight]:
     flights = flightstats.get_flight_info(time=6)
-    # flights += flightstats.get_flight_info(1, 12)
-    # flights += flightstats.get_flight_info(1, 18)
+    flights += flightstats.get_flight_info(time=12)
+    flights += flightstats.get_flight_info(time=18)
     return flights
 
 
