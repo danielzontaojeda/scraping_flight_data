@@ -1,6 +1,6 @@
 from scraping_flight_data.flight import flight, airplane, airport
 from scraping_flight_data.scraper.latam import scraper
-from scraping_flight_data.util import util_ibge, util_datetime
+from scraping_flight_data.util import util_ibge, util_datetime, util_distance
 from scraping_flight_data.scraper.seatguru import latam_capacity
 
 
@@ -16,28 +16,34 @@ def get_flights(list_airport: list[str]) -> list[flight.Flight]:
 
 def get_flight_list(info_flights, capacity_dict):
 	flight_list = []
+	destination = ''
+	distance = 0
 	for i in range(info_flights['size']):
 		# 0 is the number of conections
 		flight_airplane = get_airplane(info_flights['itinerary'][i][0], capacity_dict)
 		flight_airport = get_airport(info_flights['summary'][i])
+		if(distance == 0):
+			destination = flight_airport.city_name
+			distance = util_distance.get_distance(destination)
 		flight = get_flight(flight_airplane, flight_airport,
-					info_flights['summary'][i], info_flights['itinerary'][i] )
+					info_flights['summary'][i], info_flights['itinerary'][i], distance)
 		flight_list.append(flight)
 	return flight_list
 
 
-def get_flight(airplane, airport, summary, itinerary):
+def get_flight(airplane, airport, summary, itinerary, distance):
+	price = summary['lowestPrice']['amount']
 	return flight.Flight(
 		airplane = airplane,
 		airport = airport,
-		price = summary['lowestPrice']['amount'],
+		price = price,
 		date_departure = util_datetime.get_date_from_isoformat(summary['origin']['departure']),
 		time_departure = util_datetime.get_time_from_isoformat(summary['origin']['departure']),
 		time_arrival = util_datetime.get_time_from_isoformat(summary['destination']['arrival']),
 		stopover = summary['stopOvers'],
 		conections = [],
-		distance = 0.0,
-		yield_pax = 0.0,
+		distance = distance,
+		yield_pax = price/distance,
 		duration = summary['duration']
 	)
 

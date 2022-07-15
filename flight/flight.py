@@ -38,5 +38,5 @@ class Flight:
 			self.duration,
 			self.stopover,
 			self.distance,
-			self.yield_pax,
+			f"{self.yield_pax:.2f}",
 		]
