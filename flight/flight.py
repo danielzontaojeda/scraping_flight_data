@@ -17,3 +17,26 @@ class Flight:
 	distance: float 
 	yield_pax: float
 	duration: int
+
+
+	def get_list(self):
+		return[
+			date.today(),
+			f"{self.airplane.company_code} {self.airplane.number}",
+			self.airplane.capacity,
+			self.airplane.model,
+			self.airplane.company_name,
+			self.airport.code,
+			self.airport.city_name,
+			self.airport.state_name,
+			self.airport.region,
+			0.0,
+			0.0,
+			self.price,
+			self.time_departure,
+			self.time_arrival,
+			self.duration,
+			self.stopover,
+			self.distance,
+			self.yield_pax,
+		]

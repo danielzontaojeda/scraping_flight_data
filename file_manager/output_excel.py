@@ -3,23 +3,23 @@ from scraping_flight_data.flight import flight
 import os
 
 HEADER = [
-	"Data do voo",
-	"Aviao",
+	"Data do vôo",
+	"Avião",
 	"Capacidade",
 	"Modelo",
 	"Compania",
-	"Codigo do Aeroporto",
+	"Aeroporto",
 	"Cidade",
 	"Estado",
-	"Regiao",
-	"Preco 1d",
-	"Preco 15d",
-	"Preco 30d",
-	"Horario de saida",
-	"Horario de chegada",
-	"Duracao em minutos",
-	"Conexoes",
-	"Distancia",
+	"Região",
+	"Preço 1d",
+	"Preço 15d",
+	"Preço 30d",
+	"Horário de saída",
+	"Horário de chegada",
+	"Duração em minutos",
+	"Conexões",
+	"Distância",
 	"Yield Pax",
 ]
 
@@ -35,27 +35,6 @@ def write_file(flights: list[flight.Flight]):
             writer.writerow(HEADER)
 
         for flight in flights:
-            writer.writerow(get_list(flight))
+            writer.writerow(flight.get_list())
 
 
-def get_list(flight):
-	return[
-		flight.date_departure,
-		f"{flight.airplane.company_code} {flight.airplane.number}",
-		flight.airplane.capacity,
-		flight.airplane.model,
-		flight.airplane.company_name,
-		flight.airport.code,
-		flight.airport.city_name,
-		flight.airport.state_name,
-		flight.airport.region,
-		0.0,
-		0.0,
-		flight.price,
-		flight.time_departure,
-		flight.time_arrival,
-		flight.duration,
-		flight.stopover,
-		flight.distance,
-		flight.yield_pax,
-	]
