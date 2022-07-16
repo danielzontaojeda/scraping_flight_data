@@ -1,4 +1,4 @@
-from scraping_flight_data.file_manager import input
+from src.file_manager import input
 
 
 def get_uf_info(city_name):

@@ -1,5 +1,6 @@
-from file_manager import input, output_excel
-from scraper.latam import latam
+from src.file_manager import output_excel
+from src.file_manager import input
+from src.scraper.latam import latam
 from time import perf_counter
 
 import sys

@@ -1,7 +1,9 @@
-from scraping_flight_data.flight import flight, airplane, airport
-from scraping_flight_data.scraper.latam import scraper
-from scraping_flight_data.util import util_ibge, util_datetime, util_distance
-from scraping_flight_data.scraper.seatguru import latam_capacity
+from src.flight import airplane
+from src.flight import airport, flight
+from src.scraper.latam import scraper
+from src.util import util_distance
+from src.util import util_ibge, util_datetime
+from src.scraper.seatguru import latam_capacity
 
 
 def get_flights(list_airport: list[str]) -> list[flight.Flight]:

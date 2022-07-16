@@ -2,6 +2,7 @@ import http.client
 import gzip 
 import json
 from datetime import date
+from gzip import BadGzipFile
 
 def get_flight_list(lookup_date: date, airport: str):
 	conn = http.client.HTTPSConnection("www.latamairlines.com")
@@ -40,5 +41,10 @@ def get_flight_list(lookup_date: date, airport: str):
 
 	res = conn.getresponse()
 	data = res.read()
-	data_json = json.loads(gzip.decompress(data))['content']
+	try:
+		data_json = json.loads(gzip.decompress(data))['content']
+	except BadGzipFile:
+		data = gzip.compress(data)
+		decompressed_data = gzip.decompress(data)
+		data_json = json.loads(decompressed_data)['content']
 	return data_json

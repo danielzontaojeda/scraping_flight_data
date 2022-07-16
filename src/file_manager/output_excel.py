@@ -1,25 +1,28 @@
 import csv
-from scraping_flight_data.flight import flight
+from src.flight import flight
 import os
 
 HEADER = [
-	"Data do vôo",
-	"Avião",
-	"Capacidade",
-	"Modelo",
-	"Compania",
-	"Aeroporto",
-	"Cidade",
-	"Estado",
 	"Região",
-	"Preço 1d",
-	"Preço 15d",
+	"Estado",
+	"CidadeOrigem",
+	"AERO",
+	"DataViagem",
+	"Mês",
+	"Ano",
+	"NúmeroVoo",
+	"Equipamento/Avi",
+	"CiaAérea",
+	"CapacidadeAeronave",
+	"Hora Partida",
+	"Hora Chegada",
+	"Tipo de Trajeto",
+	"AeroportoConexão",
+	"DistânciaAéreaKM",
 	"Preço 30d",
-	"Horário de saída",
-	"Horário de chegada",
-	"Duração em minutos",
-	"Conexões",
-	"Distância",
+	"Preço 15d",
+	"Preço 1d",
+	"PreçoMédio",
 	"Yield Pax",
 ]
 
