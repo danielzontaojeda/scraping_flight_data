@@ -14,7 +14,7 @@ class Flight:
 	time_departure: time
 	time_arrival: time
 	stopover: int
-	conections: list[str]
+	connections: list[str]
 	distance: float 
 	yield_pax: float
 	duration: int
@@ -24,6 +24,14 @@ class Flight:
 			return "Conexão"
 		else:
 			return "Direto"
+
+	def format_connections_string(self):
+		if self.connections is None:
+			return ''
+		string = ''
+		for connection in self.connections:
+			string += f"{connection}, "
+		return string[:-2]
 
 
 	def get_list(self):
@@ -42,7 +50,7 @@ class Flight:
 			self.time_departure,
 			self.time_arrival,
 			self.get_conection_str(),
-			self.conections,
+			self.format_connections_string(),
 			self.distance,
 			f"{self.price:.2f}",
 			0.0,

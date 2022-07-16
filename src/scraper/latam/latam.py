@@ -4,6 +4,7 @@ from src.scraper.latam import scraper
 from src.util import util_distance
 from src.util import util_ibge, util_datetime
 from src.scraper.seatguru import latam_capacity
+import time
 
 
 def get_flights(list_airport: list[str]) -> list[flight.Flight]:
@@ -13,6 +14,7 @@ def get_flights(list_airport: list[str]) -> list[flight.Flight]:
 		data_json = scraper.get_flight_list(util_datetime.date_from_today(30), airport)
 		info_flights = get_flight_info(data_json)
 		flight_list.extend(get_flight_list(info_flights, capacity_dict))
+		time.sleep(.5)
 	return flight_list
 
 
@@ -21,7 +23,6 @@ def get_flight_list(info_flights, capacity_dict):
 	destination = ''
 	distance = 0
 	for i in range(info_flights['size']):
-		# 0 is the number of conections
 		flight_airplane = get_airplane(info_flights['itinerary'][i][0], capacity_dict)
 		flight_airport = get_airport(info_flights['summary'][i])
 		if(distance == 0):
@@ -43,11 +44,17 @@ def get_flight(airplane, airport, summary, itinerary, distance):
 		time_departure = util_datetime.get_time_from_isoformat(summary['origin']['departure']),
 		time_arrival = util_datetime.get_time_from_isoformat(summary['destination']['arrival']),
 		stopover = summary['stopOvers'],
-		conections = [],
+		connections = get_connections(itinerary),
 		distance = distance,
 		yield_pax = price/distance,
 		duration = summary['duration']
 	)
+
+def get_connections(itinerary):
+	if(len(itinerary) == 1):
+		return None
+	connections = [it['destination'] for it in itinerary if it['destination'] != 'IGU']
+	return connections
 
 
 def get_airport(summary):
