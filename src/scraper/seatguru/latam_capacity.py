@@ -2,14 +2,24 @@ import requests
 from bs4 import BeautifulSoup
 
 url = "https://www.seatguru.com/airlines/LATAM_Chile/information.php"
-string_to_delete = "'Seats:'", "'Economy'", "'LATAM+'", "'Premium Business'", "','", "'['", "']'"
+string_to_delete = (
+    "'Seats:'",
+    "'Economy'",
+    "'LATAM+'",
+    "'Premium Business'",
+    "','",
+    "'['",
+    "']'",
+)
+
 
 def get_seatguru_html():
     r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    aircraft_seats = soup.findAll('div', class_='aircraft_seats')
-    soup = BeautifulSoup(aircraft_seats.__str__(), 'html.parser')
+    soup = BeautifulSoup(r.text, "html.parser")
+    aircraft_seats = soup.findAll("div", class_="aircraft_seats")
+    soup = BeautifulSoup(aircraft_seats.__str__(), "html.parser")
     return soup
+
 
 def parse_soup(soup):
     return [repr(string) for string in soup.stripped_strings]
@@ -41,7 +51,7 @@ def create_dict(seats_info):
 def get_capacity_for_model(airplane_model, capacity_dict):
     for k, v in capacity_dict.items():
         if str(airplane_model) in k:
-            return v 
+            return v
     return 0
 
 

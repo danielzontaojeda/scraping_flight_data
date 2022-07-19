@@ -3,28 +3,29 @@ from src.flight import flight
 import os
 
 HEADER = [
-	"Região",
-	"Estado",
-	"CidadeOrigem",
-	"AERO",
-	"DataViagem",
-	"Mês",
-	"Ano",
-	"NúmeroVoo",
-	"Equipamento/Avi",
-	"CiaAérea",
-	"CapacidadeAeronave",
-	"Hora Partida",
-	"Hora Chegada",
-	"Tipo de Trajeto",
-	"AeroportoConexão",
-	"DistânciaAéreaKM",
-	"Preço 30d",
-	"Preço 15d",
-	"Preço 1d",
-	"PreçoMédio",
-	"Yield Pax",
+    "Região",
+    "Estado",
+    "CidadeOrigem",
+    "AERO",
+    "DataViagem",
+    "Mês",
+    "Ano",
+    "NúmeroVoo",
+    "Equipamento/Avi",
+    "CiaAérea",
+    "CapacidadeAeronave",
+    "Hora Partida",
+    "Hora Chegada",
+    "Tipo de Trajeto",
+    "AeroportoConexão",
+    "DistânciaAéreaKM",
+    "Preço 30d",
+    "Preço 15d",
+    "Preço 1d",
+    "PreçoMédio",
+    "Yield Pax",
 ]
+
 
 def is_file_empty(file):
     return os.stat(file.name).st_size == 0
@@ -39,5 +40,3 @@ def write_file(flights: list[flight.Flight]):
 
         for flight in flights:
             writer.writerow(flight.get_list())
-
-

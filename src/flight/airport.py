@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
-@dataclass 
+
+@dataclass
 class Airport:
-	code: str
-	city_name: str 
-	state_name: str 
-	region: str 
+    code: str
+    city_name: str
+    state_name: str
+    region: str
