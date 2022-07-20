@@ -19,7 +19,7 @@ class Flight:
     yield_pax: float
     duration: int
 
-    def get_conection_str(self):
+    def get_connection_str(self):
         if self.stopover > 0:
             return "Conexão"
         else:
@@ -48,7 +48,7 @@ class Flight:
             self.airplane.capacity,
             self.time_departure,
             self.time_arrival,
-            self.get_conection_str(),
+            self.get_connection_str(),
             self.format_connections_string(),
             self.distance,
             f"{self.price:.2f}",

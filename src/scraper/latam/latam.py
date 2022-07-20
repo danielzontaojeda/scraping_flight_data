@@ -1,13 +1,15 @@
+import time
+
 from src.flight import airplane
 from src.flight import airport, flight
 from src.scraper.latam import scraper
+from src.scraper.seatguru import latam_capacity
 from src.util import util_distance
 from src.util import util_ibge, util_datetime
-from src.scraper.seatguru import latam_capacity
-import time
 
 
-def get_flights(list_airport: list[str]) -> list[flight.Flight]:
+def get_flights(list_airport) -> list:
+    """Return list with flights from all airports in list_airport"""
     flight_list = []
     capacity_dict = latam_capacity.get_capacity_dict()
     for airport in list_airport:
@@ -18,7 +20,12 @@ def get_flights(list_airport: list[str]) -> list[flight.Flight]:
     return flight_list
 
 
-def get_flight_list(info_flights, capacity_dict):
+def get_flight_list(info_flights, capacity_dict) -> list:
+    """Return list with flights out of info_flights dict.
+
+    capacity_dict has data about airplane capacity.
+    It's passed as parameter so multiple api request aren't needed.
+    """
     flight_list = []
     destination = ""
     distance = 0
@@ -39,7 +46,8 @@ def get_flight_list(info_flights, capacity_dict):
     return flight_list
 
 
-def get_flight(airplane, airport, summary, itinerary, distance):
+def get_flight(airplane, airport, summary, itinerary, distance) -> flight.Flight:
+    """Return flight object."""
     price = summary["lowestPrice"]["amount"]
     return flight.Flight(
         airplane=airplane,
@@ -62,14 +70,15 @@ def get_flight(airplane, airport, summary, itinerary, distance):
     )
 
 
-def get_connections(itinerary):
+def get_connections(itinerary) -> list:
+    """Return list with flight connections."""
     if len(itinerary) == 1:
         return None
-    connections = [it["destination"] for it in itinerary if it["destination"] != "IGU"]
-    return connections
+    return [it["destination"] for it in itinerary if it["destination"] != "IGU"]
 
 
-def get_airport(summary):
+def get_airport(summary) -> airport.Airport:
+    """Return airport object."""
     uf_info = util_ibge.get_uf_info(summary["origin"]["city"])
     return airport.Airport(
         code=summary["origin"]["iataCode"],
@@ -79,7 +88,8 @@ def get_airport(summary):
     )
 
 
-def get_airplane(itinerary, capacity_dict):
+def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
+    """Return airplane object."""
     model_airplane = itinerary["equipment"]
     return airplane.Airplane(
         number=itinerary["flight"]["flightNumber"],
@@ -90,7 +100,8 @@ def get_airplane(itinerary, capacity_dict):
     )
 
 
-def get_flight_info(data_json):
+def get_flight_info(data_json) -> dict:
+    """Return dict with data parsed from data_json."""
     summary_list = []
     itinerary_list = []
     for data in data_json:

@@ -1,11 +1,11 @@
 from scraping_flight_data.src.scraper.seatguru import seatguru
 
-url = "https://www.seatguru.com/airlines/LATAM_Chile/information.php"
+url = "https://www.seatguru.com/airlines/GOL/information.php"
 string_to_delete = (
     "'Seats:'",
     "'Economy'",
     "'LATAM+'",
-    "'Premium Business'",
+    "'Premium Economy'",
     "','",
     "'['",
     "']'",
@@ -13,8 +13,13 @@ string_to_delete = (
 
 
 def get_capacity_for_model(airplane_model, capacity_dict):
+    """Searches dict for partial match for airplane_model"""
+    # gol website uses different code for the 737-700
+    if airplane_model == "73G":
+        airplane_model = "737"
     for k, v in capacity_dict.items():
-        if str(airplane_model) in k:
+        key = k[k.find("(") + 1 : k.find(")")]
+        if str(airplane_model) in key:
             return v
     return 0
 
@@ -29,7 +34,7 @@ def get_capacity_dict():
 
 if __name__ == "__main__":
     capacity_dict = get_capacity_dict()
-    print(get_capacity_for_model(320, capacity_dict))
-    print(get_capacity_for_model(321, capacity_dict))
-    print(get_capacity_for_model(319, capacity_dict))
-    print(get_capacity_for_model(767, capacity_dict))
+    print(get_capacity_for_model("7M8", capacity_dict))
+    print(get_capacity_for_model("73G", capacity_dict))
+    print(get_capacity_for_model("738", capacity_dict))
+    print(get_capacity_for_model("737", capacity_dict))

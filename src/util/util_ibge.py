@@ -5,9 +5,17 @@ from unidecode import unidecode
 def get_uf_info(city_name):
     if city_name == "Porto Alegre":
         return {"state": "Rio Grande do Sul", "region": "Sul", "city": "Porto Alegre"}
+    if city_name == "Campo Grande":
+        return {
+            "state": "Mato Grosso do Sul",
+            "region": "Centro-Oeste",
+            "city": "Campo Grande",
+        }
+    if city_name == "Salvador da Bahia":
+        city_name = "Salvador"
     data = input.get_municipios_json()
     for city in data:
-        if unidecode(city["nome"]).lower() in unidecode(city_name).lower():
+        if unidecode(city["nome"]).lower() == unidecode(city_name).lower():
             return {
                 "state": city["regiao-imediata"]["regiao-intermediaria"]["UF"]["nome"],
                 "region": city["regiao-imediata"]["regiao-intermediaria"]["UF"][
@@ -19,6 +27,4 @@ def get_uf_info(city_name):
 
 
 if __name__ == "__main__":
-    print(get_uf_info("Rio De Janeiro"))
-    print(get_uf_info("Rio De janeiro"))
-    print(get_uf_info("Rio de Janeiro"))
+    print(get_uf_info("Salvador da Bahia"))

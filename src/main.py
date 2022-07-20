@@ -1,10 +1,10 @@
-from src.file_manager import output_excel
-from src.file_manager import input
-from src.scraper.latam import latam
-from src.scraper.gol import gol
+import sys
 from time import perf_counter
 
-import sys
+from src.file_manager import input
+from src.file_manager import output_excel
+from src.scraper.gol import gol
+from src.scraper.latam import latam
 
 sys.path.append("..")
 
