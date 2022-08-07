@@ -1,11 +1,14 @@
 from scraping_flight_data.src.scraper.seatguru import seatguru
+import re
 
-URL = "https://www.seatguru.com/airlines/GOL/information.php"
+URL = "https://www.seatguru.com/airlines/Azul_Airlines/information.php"
 STRING_TO_DELETE = (
     "'Seats:'",
     "'Economy'",
-    "'LATAM+'",
+    "'Economy Xtra'",
     "'Premium Economy'",
+    "'Azul Space'",
+    "'Business'",
     "','",
     "'['",
     "']'",
@@ -14,12 +17,13 @@ STRING_TO_DELETE = (
 
 def get_capacity_for_model(airplane_model, capacity_dict):
     """Searches dict for partial match for airplane_model"""
-    # gol website uses different code for the 737-700
-    if airplane_model == "73G":
-        airplane_model = "737"
+    pattern = r"^.*?(\d{3}).*$"
     for k, v in capacity_dict.items():
-        key = k[k.find("(") + 1 : k.find(")")]
-        if str(airplane_model) in key:
+        match = re.search(pattern, airplane_model)
+        if match:
+            if match.group(1) in k:
+                return v
+        elif airplane_model in k:
             return v
     return 0
 
@@ -34,7 +38,6 @@ def get_capacity_dict():
 
 if __name__ == "__main__":
     capacity_dict = get_capacity_dict()
-    print(get_capacity_for_model("7M8", capacity_dict))
-    print(get_capacity_for_model("73G", capacity_dict))
-    print(get_capacity_for_model("738", capacity_dict))
-    print(get_capacity_for_model("737", capacity_dict))
+    print(get_capacity_for_model("Airbus A320 neo", capacity_dict))
+    print(get_capacity_for_model("Embraer 195", capacity_dict))
+    print(get_capacity_for_model("ATR", capacity_dict))

@@ -1,12 +1,43 @@
 from datetime import datetime
+import time
 
 from scraping_flight_data.src.flight import airplane, airport, flight
 from scraping_flight_data.src.scraper.gol import scraper
-from scraping_flight_data.src.util import util_datetime
-from scraping_flight_data.src.util import util_distance
-from scraping_flight_data.src.util import util_iatacode_lookup
-from scraping_flight_data.src.util import util_ibge
 from scraping_flight_data.src.scraper.seatguru import gol_capacity
+from scraping_flight_data.src.util import util_datetime
+
+
+def get_flights(list_dict_airport, days) -> list:
+    """Return list with flights from all airports in list_airport."""
+    date = util_datetime.date_from_today(days)
+    flight_list = []
+    capacity_dict = gol_capacity.get_capacity_dict()
+    for dict_airport in list_dict_airport:
+        for airport in dict_airport.keys():
+            data_json = scraper.get_flight_list(date, airport)
+            itinerary = data_json["response"]["airSearchResults"]["brandedResults"][
+                "itineraryPartBrands"
+            ][0]
+            flights_from_airport = get_flights_from_airport(
+                itinerary, capacity_dict, dict_airport, airport
+            )
+            flight_list.extend(flights_from_airport)
+            time.sleep(0.5)
+    return flight_list
+
+
+def get_flights_from_airport(
+    itinerary, capacity_dict, dict_airport, airport_code
+) -> list:
+    """Get flight information out of itinerary json."""
+    flight_list = []
+    for it in itinerary:
+        offers = it["brandOffers"]
+        airplane = get_airplane(it, capacity_dict)
+        airport = get_airport(it, airport_code, dict_airport)
+        flight = get_flight(airport, airplane, it, offers, dict_airport)
+        flight_list.append(flight)
+    return flight_list
 
 
 def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
@@ -21,11 +52,11 @@ def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
     )
 
 
-def get_airport(itinerary) -> airport.Airport:
+def get_airport(itinerary, airport_code, dict_airport) -> airport.Airport:
     """Return Airport object."""
     code = itinerary["itineraryPart"]["segments"][0]["origin"]
-    city_name = util_iatacode_lookup.get_city_by_iata(code)
-    city_info = util_ibge.get_uf_info(city_name)
+    city_name = dict_airport[airport_code]["city_name"]
+    city_info = dict_airport[airport_code]["uf_info"]
     return airport.Airport(
         code=code,
         city_name=city_info["city"],
@@ -34,22 +65,10 @@ def get_airport(itinerary) -> airport.Airport:
     )
 
 
-def get_connections(itinerary) -> list:
-    """Return list of flight connections."""
-    segments = itinerary["itineraryPart"]["segments"]
-    if itinerary["itineraryPart"]["stops"] == 0:
-        return []
-    return [
-        segment["destination"]
-        for segment in segments
-        if segment["destination"] != "IGU"
-    ]
-
-
-def get_flight(airport, airplane, itinerary, offers) -> flight.Flight:
+def get_flight(airport, airplane, itinerary, offers, dict_airport) -> flight.Flight:
     """Return flight object."""
     price = float(offers[0]["total"]["alternatives"][0][0]["amount"])
-    distance = util_distance.get_distance(airport.city_name)
+    distance = dict_airport[airport.code]["distance"]
     return flight.Flight(
         airplane=airplane,
         airport=airport,
@@ -58,35 +77,20 @@ def get_flight(airport, airplane, itinerary, offers) -> flight.Flight:
         time_departure=datetime.fromisoformat(itinerary["departure"]).time(),
         time_arrival=datetime.fromisoformat(itinerary["arrival"]).time(),
         stopover=itinerary["itineraryPart"]["stops"],
-        connections=get_connections(itinerary),
+        stopover_list=get_stopover_list(itinerary),
         distance=distance,
         yield_pax=price / distance,
         duration=itinerary["duration"],
     )
 
 
-def get_flights_from_airport(itinerary, capacity_dict) -> list:
-    """Get flight information out of itinerary json."""
-    flight_list = []
-    for it in itinerary:
-        offers = it["brandOffers"]
-        airplane = get_airplane(it, capacity_dict)
-        airport = get_airport(it)
-        flight = get_flight(airport, airplane, it, offers)
-        flight_list.append(flight)
-    return flight_list
-
-
-def get_flights(list_airport) -> list:
-    """Return list with flights from all airports in list_airport."""
-    date = util_datetime.date_from_today(30)
-    flight_list = []
-    capacity_dict = gol_capacity.get_capacity_dict()
-    for airport in list_airport:
-        data_json = scraper.get_flight_list(date, airport)
-        itinerary = data_json["response"]["airSearchResults"]["brandedResults"][
-            "itineraryPartBrands"
-        ][0]
-        flights_from_airport = get_flights_from_airport(itinerary, capacity_dict)
-        flight_list.extend(flights_from_airport)
-    return flight_list
+def get_stopover_list(itinerary) -> list:
+    """Return list of flight stopovers."""
+    segments = itinerary["itineraryPart"]["segments"]
+    if itinerary["itineraryPart"]["stops"] == 0:
+        return []
+    return [
+        segment["destination"]
+        for segment in segments
+        if segment["destination"] != "IGU"
+    ]

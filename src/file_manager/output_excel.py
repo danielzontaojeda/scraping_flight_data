@@ -1,6 +1,7 @@
 import csv
-from src.flight import flight
 import os
+
+from src.flight import flight
 
 HEADER = [
     "Região",

@@ -8,7 +8,7 @@ __pycache__/
 *.csv
 *.log
 test/
-
+gecko*
 
 # C extensions
 *.so

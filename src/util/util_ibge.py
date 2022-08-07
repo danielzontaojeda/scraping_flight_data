@@ -28,3 +28,5 @@ def get_uf_info(city_name):
 
 if __name__ == "__main__":
     print(get_uf_info("Salvador da Bahia"))
+    print(get_uf_info("Sao Paulo"))
+    print(get_uf_info("Curitiba"))
