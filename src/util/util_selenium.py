@@ -1,6 +1,6 @@
-from selenium import webdriver
-from fake_useragent import UserAgent
 import undetected_chromedriver as uc
+from fake_useragent import UserAgent
+from selenium import webdriver
 
 FIREFOX_BINARY_LOCATION = r"C:\Program Files\Mozilla Firefox\firefox.exe"
 

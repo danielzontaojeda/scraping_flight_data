@@ -1,5 +1,5 @@
-from datetime import datetime
 import time
+from datetime import datetime
 
 from scraping_flight_data.src.flight import airplane, airport, flight
 from scraping_flight_data.src.scraper.gol import scraper

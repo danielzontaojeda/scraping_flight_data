@@ -1,5 +1,6 @@
-from scraping_flight_data.src.scraper.seatguru import seatguru
 import re
+
+from scraping_flight_data.src.scraper.seatguru import seatguru
 
 URL = "https://www.seatguru.com/airlines/Azul_Airlines/information.php"
 STRING_TO_DELETE = (

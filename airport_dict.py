@@ -1,6 +1,6 @@
 from src.file_manager import input
-from src.util.util_iatacode_lookup import get_city_by_iata
 from src.util.util_distance import get_distance
+from src.util.util_iatacode_lookup import get_city_by_iata
 from src.util.util_ibge import get_uf_info
 
 
