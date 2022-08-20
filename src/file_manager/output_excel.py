@@ -32,8 +32,9 @@ def is_file_empty(file):
     return os.stat(file.name).st_size == 0
 
 
-def write_file(flights: list[flight.Flight]):
-    with open("saida.csv", "a", newline="") as file:
+def write_file(flights: list[flight.Flight], filename = "saida.csv"):
+    """Write flight object list into a csv file."""
+    with open(filename, "a", newline="") as file:
         writer = csv.writer(file)
         if is_file_empty(file):
             writer.writerow(["sep=,"])

@@ -4,8 +4,7 @@ from src.util.util_iatacode_lookup import get_city_by_iata
 from src.util.util_ibge import get_uf_info
 
 
-def get_airport_dict_list():
-    airport_list = input.get_airport_list()
+def get_airport_dict_list(airport_list: list[str]) -> dict:
     airport_dict_list = []
     for airport in airport_list:
         d = {}
