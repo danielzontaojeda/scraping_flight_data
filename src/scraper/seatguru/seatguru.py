@@ -40,4 +40,5 @@ def create_dict(seats_info):
         except ValueError:
             currentKey = string
             capacity[currentKey] = 0
+    capacity["AT7"] = 70
     return capacity
