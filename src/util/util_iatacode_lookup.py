@@ -1,7 +1,7 @@
 import airportsdata
 
 
-def get_city_by_iata(code):
+def get_city_by_iata(code: str) -> str:
     airports = airportsdata.load("IATA")
     return airports[code]["city"]
 

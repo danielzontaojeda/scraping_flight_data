@@ -1,7 +1,7 @@
 import requests
 
 
-def get_flight_list(date, airport):
+def get_flight_list(date, airport: str) -> dict:
     url = "https://b2c-api.voegol.com.br/api/sabre-default/flights"
 
     querystring = {"context": "b2c", "flow": "Issue"}

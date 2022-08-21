@@ -5,7 +5,7 @@ from datetime import date
 from gzip import BadGzipFile
 
 
-def get_flight_list(lookup_date: date, airport: str):
+def get_flight_list(lookup_date: date, airport: str) -> dict:
     conn = http.client.HTTPSConnection("www.latamairlines.com")
 
     date_str = lookup_date.strftime("%Y-%m-%d")
@@ -48,7 +48,7 @@ def get_flight_list(lookup_date: date, airport: str):
     data = res.read()
     try:
         data_json = json.loads(gzip.decompress(data))["content"]
-    # sometimes data from latam comes only half compressed?
+    # sometimes data comes only half compressed?
     except BadGzipFile:
         data = gzip.compress(data)
         decompressed_data = gzip.decompress(data)

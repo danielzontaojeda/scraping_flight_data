@@ -20,13 +20,17 @@ class Flight:
     yield_pax: float
     duration: int
 
-    def get_stopover_str(self):
+    def get_stopover_str(self) -> str:
         if self.stopover > 0:
             return "Conexão"
         else:
             return "Direto"
 
-    def format_stopover_string(self):
+    def format_stopover_string(self) -> str:
+        """
+        Append all airport iata code from stopover_list to
+        a string
+        """
         if self.stopover_list is None:
             return ""
         string = ""
@@ -34,7 +38,7 @@ class Flight:
             string += f"{connection}, "
         return string[:-2]
 
-    def get_list(self):
+    def get_list(self) -> list:
         return [
             self.airport.region,
             self.airport.state_name,

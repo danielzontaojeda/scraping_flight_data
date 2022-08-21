@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_seatguru_html(url):
+def get_seatguru_html(url: str):
     """Return soup from seatguru url with airplane capacity data."""
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
@@ -11,12 +11,12 @@ def get_seatguru_html(url):
     return soup
 
 
-def parse_soup(soup):
+def parse_soup(soup) -> list:
     """Transforms soup into a list."""
     return [repr(string) for string in soup.stripped_strings]
 
 
-def clean_soup(seats_info, string_to_delete):
+def clean_soup(seats_info, string_to_delete) -> list:
     """Remove itens from string_to_delete from seats_info."""
     to_delete = [i for i, string in enumerate(seats_info) if string in string_to_delete]
     to_delete.reverse()
@@ -25,7 +25,7 @@ def clean_soup(seats_info, string_to_delete):
     return seats_info
 
 
-def create_dict(seats_info):
+def create_dict(seats_info: list) -> dict:
     """Organizes seats_info data into a dict:
 
     {plane_model: capacity}

@@ -6,7 +6,7 @@ from src.scraper.seatguru import latam_capacity
 from src.util import util_datetime
 
 
-def get_flights(list_dict_airport, days) -> list:
+def get_flights(list_dict_airport: list[dict], days: int) -> list:
     """Return list with flights from all airports in list_airport"""
     flight_list = []
     capacity_dict = latam_capacity.get_capacity_dict()
@@ -24,7 +24,9 @@ def get_flights(list_dict_airport, days) -> list:
     return flight_list
 
 
-def get_flight_list(info_flights, capacity_dict, airport_info) -> list:
+def get_flight_list(
+    info_flights: dict, capacity_dict: dict, airport_info: dict
+) -> list:
     """Return list with flights out of info_flights dict."""
     flight_list = []
     destination = ""
@@ -46,7 +48,13 @@ def get_flight_list(info_flights, capacity_dict, airport_info) -> list:
     return flight_list
 
 
-def get_flight(airplane, airport, summary, itinerary, distance) -> flight.Flight:
+def get_flight(
+    airplane: airplane.Airplane,
+    airport: airport.Airport,
+    summary: dict,
+    itinerary: dict,
+    distance: int,
+) -> flight.Flight:
     """Return flight object."""
     price = summary["lowestPrice"]["amount"]
     return flight.Flight(
@@ -70,14 +78,14 @@ def get_flight(airplane, airport, summary, itinerary, distance) -> flight.Flight
     )
 
 
-def get_connections(itinerary) -> list:
+def get_connections(itinerary: dict) -> list:
     """Return list with flight connections."""
     if len(itinerary) == 1:
         return None
     return [it["destination"] for it in itinerary if it["destination"] != "IGU"]
 
 
-def get_airport(summary, airport_info) -> airport.Airport:
+def get_airport(summary: dict, airport_info: dict) -> airport.Airport:
     """Return airport object."""
     uf_info = airport_info["uf_info"]
     return airport.Airport(
@@ -88,7 +96,7 @@ def get_airport(summary, airport_info) -> airport.Airport:
     )
 
 
-def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
+def get_airplane(itinerary: dict, capacity_dict: dict) -> airplane.Airplane:
     """Return airplane object."""
     model_airplane = itinerary["equipment"]
     return airplane.Airplane(
@@ -100,7 +108,7 @@ def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
     )
 
 
-def get_flight_info(data_json) -> dict:
+def get_flight_info(data_json: list) -> dict:
     """Return dict with data parsed from data_json."""
     summary_list = []
     itinerary_list = []

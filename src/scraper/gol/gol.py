@@ -7,7 +7,7 @@ from scraping_flight_data.src.scraper.seatguru import gol_capacity
 from scraping_flight_data.src.util import util_datetime
 
 
-def get_flights(list_dict_airport, days) -> list:
+def get_flights(list_dict_airport: list[dict], days: int) -> list:
     """Return list with flights from all airports in list_airport."""
     date = util_datetime.date_from_today(days)
     flight_list = []
@@ -27,7 +27,7 @@ def get_flights(list_dict_airport, days) -> list:
 
 
 def get_flights_from_airport(
-    itinerary, capacity_dict, dict_airport, airport_code
+    itinerary: dict, capacity_dict: dict, dict_airport: dict, airport_code: str
 ) -> list:
     """Get flight information out of itinerary json."""
     flight_list = []
@@ -40,7 +40,7 @@ def get_flights_from_airport(
     return flight_list
 
 
-def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
+def get_airplane(itinerary: dict, capacity_dict: dict) -> airplane.Airplane:
     """Return Airplane object."""
     model = itinerary["itineraryPart"]["segments"][0]["equipment"]
     return airplane.Airplane(
@@ -52,7 +52,9 @@ def get_airplane(itinerary, capacity_dict) -> airplane.Airplane:
     )
 
 
-def get_airport(itinerary, airport_code, dict_airport) -> airport.Airport:
+def get_airport(
+    itinerary: dict, airport_code: str, dict_airport: dict
+) -> airport.Airport:
     """Return Airport object."""
     code = itinerary["itineraryPart"]["segments"][0]["origin"]
     city_name = dict_airport[airport_code]["city_name"]
@@ -65,7 +67,13 @@ def get_airport(itinerary, airport_code, dict_airport) -> airport.Airport:
     )
 
 
-def get_flight(airport, airplane, itinerary, offers, dict_airport) -> flight.Flight:
+def get_flight(
+    airport: airport.Airport,
+    airplane: airplane.Airplane,
+    itinerary: dict,
+    offers: list,
+    dict_airport: dict,
+) -> flight.Flight:
     """Return flight object."""
     price = float(offers[0]["total"]["alternatives"][0][0]["amount"])
     distance = dict_airport[airport.code]["distance"]
@@ -84,7 +92,7 @@ def get_flight(airport, airplane, itinerary, offers, dict_airport) -> flight.Fli
     )
 
 
-def get_stopover_list(itinerary) -> list:
+def get_stopover_list(itinerary: dict) -> list:
     """Return list of flight stopovers."""
     segments = itinerary["itineraryPart"]["segments"]
     if itinerary["itineraryPart"]["stops"] == 0:

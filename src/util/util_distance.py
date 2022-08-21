@@ -1,7 +1,8 @@
 import requests
 
 
-def get_distance(destination):
+def get_distance(destination: str) -> int:
+    """Return distance from destination to Foz do Iguaçu."""
     url = (
         f"https://pt.distancia24.org/route.json?stops=Foz+do+Igua%C3%A7u|{destination}"
     )

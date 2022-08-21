@@ -2,7 +2,11 @@ from src.file_manager import input
 from unidecode import unidecode
 
 
-def get_uf_info(city_name):
+def get_uf_info(city_name: str) -> dict:
+    """
+    Search for city_name in ibge database and return dict with
+    state name, region name and city name.
+    """
     if city_name == "Porto Alegre":
         return {"state": "Rio Grande do Sul", "region": "Sul", "city": "Porto Alegre"}
     if city_name == "Campo Grande":

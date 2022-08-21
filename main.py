@@ -5,6 +5,7 @@ from src import airport_dict
 from src.file_manager import input, output_excel, add_prices
 from src.scraper.gol import gol
 from src.scraper.latam import latam
+
 # from src.scraper.azul import azul
 
 

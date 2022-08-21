@@ -12,7 +12,7 @@ STRING_TO_DELETE = (
 )
 
 
-def get_capacity_for_model(airplane_model, capacity_dict):
+def get_capacity_for_model(airplane_model: str, capacity_dict: dict) -> int:
     """Searches dict for partial match for airplane_model"""
     # gol website uses different code for the 737-700
     if airplane_model == "73G":
@@ -24,7 +24,8 @@ def get_capacity_for_model(airplane_model, capacity_dict):
     return 0
 
 
-def get_capacity_dict():
+def get_capacity_dict() -> dict:
+    """Return dict using gol airplane model as key and capacity as value."""
     soup = seatguru.get_seatguru_html(URL)
     seats_info = seatguru.parse_soup(soup)
     seats_info = seatguru.clean_soup(seats_info, STRING_TO_DELETE)

@@ -7,6 +7,10 @@ from scraping_flight_data.src.flight import flight
 
 
 def insert_price(list_flights: list[flight.Flight], days: int) -> None:
+    """
+    Find flight in csv that matches flight in list and add to csv
+    the price for 15 or 1 days before flight.
+    """
     with open("saida.csv", newline="") as csvfile, open(
         "saida_tmp.csv", "a", newline=""
     ) as tmp_file:
@@ -50,6 +54,10 @@ def insert_price(list_flights: list[flight.Flight], days: int) -> None:
 
 
 def edit_row(row: dict, list_flights: list[flight.Flight], days: int) -> None:
+    """ "
+    Find flight from list_flights that matches row data and insert price at
+    price column from days param.
+    """
     for f in list_flights:
         if (
             row["date"] == f.date_departure.strftime("%Y-%m-%d")

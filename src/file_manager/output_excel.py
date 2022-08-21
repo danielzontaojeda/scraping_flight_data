@@ -28,11 +28,11 @@ HEADER = [
 ]
 
 
-def is_file_empty(file):
+def is_file_empty(file) -> bool:
     return os.stat(file.name).st_size == 0
 
 
-def write_file(flights: list[flight.Flight], filename = "saida.csv"):
+def write_file(flights: list[flight.Flight], filename="saida.csv") -> None:
     """Write flight object list into a csv file."""
     with open(filename, "a", newline="") as file:
         writer = csv.writer(file)
