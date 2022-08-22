@@ -35,12 +35,6 @@ def start_browser(url):
     return driver
 
 
-def teste():
-    capabilities = webdriver.DesiredCapabilities().FIREFOX
-    capabilities["acceptSslCerts"] = True
-    return capabilities
-
-
 def get_useragent():
     ua = UserAgent()
     user_agent = ua.chrome
