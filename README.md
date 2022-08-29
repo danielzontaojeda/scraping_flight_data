@@ -8,9 +8,11 @@
 
 * pytest
 
-`pip install requests airportsdata unidecode pytest`
+* selenium
 
-## TODO:
+`pip install requests airportsdata unidecode pytest selenium`
+
+## TODO
 
 * Add azul webscraping
 
