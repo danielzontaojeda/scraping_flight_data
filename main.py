@@ -21,26 +21,26 @@ def process_data_azul():
 def webscrape_gol(list_airports):
     flight_list = gol.get_flights(list_airports, 30)
     output_excel.write_file(flight_list)
-    flight_list = gol.get_flights(list_airports, 15)
-    add_prices.insert_price(flight_list, 15)
-    flight_list = gol.get_flights(list_airports, 1)
-    add_prices.insert_price(flight_list, 1)
+    # flight_list = gol.get_flights(list_airports, 15)
+    # add_prices.insert_price(flight_list, 15)
+    # flight_list = gol.get_flights(list_airports, 1)
+    # add_prices.insert_price(flight_list, 1)
 
 
 def webscrape_latam(list_airports):
     flight_list = latam.get_flights(list_airports, 30)
     output_excel.write_file(flight_list)
-    flight_list = latam.get_flights(list_airports, 15)
-    add_prices.insert_price(flight_list, 15)
-    flight_list = latam.get_flights(list_airports, 1)
-    add_prices.insert_price(flight_list, 1)
+    # flight_list = latam.get_flights(list_airports, 15)
+    # add_prices.insert_price(flight_list, 15)
+    # flight_list = latam.get_flights(list_airports, 1)
+    # add_prices.insert_price(flight_list, 1)
 
 
 def main():
     list_airports = input.get_airport_list()
     list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
     # process_data_azul()
-    webscrape_gol(list_airports_dict)
+    # webscrape_gol(list_airports_dict)
     webscrape_latam(list_airports_dict)
 
 

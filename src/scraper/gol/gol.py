@@ -5,6 +5,7 @@ from scraping_flight_data.src.flight import airplane, airport, flight
 from scraping_flight_data.src.scraper.gol import scraper
 from scraping_flight_data.src.scraper.seatguru import gol_capacity
 from scraping_flight_data.src.util import util_datetime
+from scraping_flight_data.src.scraper.gol import get_token
 
 
 def get_flights(list_dict_airport: list[dict], days: int) -> list:
@@ -12,9 +13,10 @@ def get_flights(list_dict_airport: list[dict], days: int) -> list:
     date = util_datetime.date_from_today(days)
     flight_list = []
     capacity_dict = gol_capacity.get_capacity_dict()
+    token = get_token.get_token()
     for dict_airport in list_dict_airport:
         for airport in dict_airport.keys():
-            data_json = scraper.get_flight_list(date, airport)
+            data_json = scraper.get_flight_list(date, airport, token)
             itinerary = data_json["response"]["airSearchResults"]["brandedResults"][
                 "itineraryPartBrands"
             ][0]

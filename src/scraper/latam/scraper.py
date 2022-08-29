@@ -1,6 +1,7 @@
 import gzip
 import http.client
 import json
+import time
 from datetime import date
 from gzip import BadGzipFile
 
@@ -52,5 +53,9 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
     except BadGzipFile:
         data = gzip.compress(data)
         decompressed_data = gzip.decompress(data)
-        data_json = json.loads(decompressed_data)["content"]
+        if b'error' in decompressed_data:
+            time.sleep(120)
+            data_json = get_flight_list(lookup_date, airport)
+        else:
+            data_json = json.loads(decompressed_data)["content"]
     return data_json

@@ -1,9 +1,7 @@
 import requests
-from scraping_flight_data.src.scraper.gol import get_token
 
 
-def get_flight_list(date, airport: str) -> dict:
-    token = get_token.get_token()
+def get_flight_list(date, airport: str, token) -> dict:
     url = "https://b2c-api.voegol.com.br/api/sabre-default/flights"
 
     querystring = {"context": "b2c", "flow": "Issue"}
