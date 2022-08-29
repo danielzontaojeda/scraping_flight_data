@@ -6,10 +6,10 @@ from src.file_manager import input, output_excel, add_prices
 from src.scraper.gol import gol
 from src.scraper.latam import latam
 
-# from src.scraper.azul import azul
+from src.scraper.azul import azul
 
 
-def process_data_azul():
+def webscrape_azul():
     """
     azul.get_flights changes list_airports
     """
@@ -37,11 +37,11 @@ def webscrape_latam(list_airports):
 
 
 def main():
-    list_airports = input.get_airport_list()
-    list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
-    # process_data_azul()
+    # list_airports = input.get_airport_list()
+    # list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
+    webscrape_azul()
     # webscrape_gol(list_airports_dict)
-    webscrape_latam(list_airports_dict)
+    # webscrape_latam(list_airports_dict)
 
 
 if __name__ == "__main__":
