@@ -24,7 +24,7 @@ def get_flights(list_dict_airport: list[dict], days: int) -> list:
                 itinerary, capacity_dict, dict_airport, airport
             )
             flight_list.extend(flights_from_airport)
-            time.sleep(0.5)
+            time.sleep(5)
     return flight_list
 
 

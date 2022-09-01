@@ -6,11 +6,14 @@ from scraping_flight_data.src.flight import airport, airplane, flight
 from scraping_flight_data.src.scraper.azul import azul_price_page
 from scraping_flight_data.src.scraper.seatguru import azul_capacity
 from scraping_flight_data.src.util import util_datetime, util_selenium
+from scraping_flight_data.src.file_manager import output_excel
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from requests.exceptions import ConnectionError
 
 AZUL_HOMEPAGE = "https://www.voeazul.com.br/"
 
@@ -39,6 +42,8 @@ def insert_departure_field(driver, airport):
         EC.element_to_be_clickable((By.XPATH, '//*[@id="field-5-origin1"]'))
     )
     departure_field.clear()
+    if airport == 'REC':
+        airport = 'RECI'
     departure_field.send_keys(airport, Keys.ENTER)
 
 
@@ -113,26 +118,41 @@ def create_flight(flight_dict):
 
 
 def get_flights(list_airport):
-    flight_list = []
     date = util_datetime.date_from_today(30)
     capacity_dict = azul_capacity.get_capacity_dict()
     for airport in list_airport:
-        driver = util_selenium.start_browser(AZUL_HOMEPAGE)
         print(f'---------------------{airport}-----------------------')
+        flight_list = []
+        retry = False
         try:
+            driver = util_selenium.start_browser(AZUL_HOMEPAGE)
             driver.set_page_load_timeout(10)
             go_to_price_page(driver, airport, date)
             flight_data = azul_price_page.get_flights_data(driver, airport, date, capacity_dict)
-            if not flight_data: raise NoSuchElementException
+            #TODO create custom exception
+            if not flight_data: raise EOFError
             for flight_dict in flight_data:
                 flight_list.append(create_flight(flight_dict))
-        except (IndexError, TimeoutException, NoSuchElementException):
+        except (IndexError):
+            retry = True
             print(traceback.format_exc())
             print(datetime.now())
             print(f"appended {airport}")
             list_airport.append(airport)
+        except (ConnectionError, TimeoutException, NoSuchElementException, WebDriverException):
+            print(traceback.format_exc())
+            print(f"appended {airport}, connection error")
+            list_airport.append(airport)
+            t.sleep(300)
+        except EOFError:
+            print(traceback.format_exc())
+            print(f'No flights for {airport}')
+            t.sleep(300)
         driver.close()
-    return flight_list
+        if not retry:
+            output_excel.write_file(flight_list)
+            t.sleep(300)
+
 
 if __name__ == '__main__':
     print(get_flights(['VCP']))
