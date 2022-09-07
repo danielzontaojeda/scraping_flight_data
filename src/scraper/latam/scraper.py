@@ -53,7 +53,7 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
     except BadGzipFile:
         data = gzip.compress(data)
         decompressed_data = gzip.decompress(data)
-        if b'error' in decompressed_data:
+        if b"error" in decompressed_data:
             time.sleep(120)
             data_json = get_flight_list(lookup_date, airport)
         else:

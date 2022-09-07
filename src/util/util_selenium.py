@@ -18,10 +18,15 @@ def start_browser(url) -> webdriver:
     driver = webdriver.Firefox(options=options)
     driver.get(url)
     driver.delete_all_cookies()
-    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    driver.execute_script(
+        "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+    )
     driver.execute_script("window.focus();")
     driver.maximize_window()
+    driver.set_page_load_timeout(10)
     return driver
+
+
 #
 
 # def start_browser(url):
@@ -37,14 +42,15 @@ def start_browser(url) -> webdriver:
 #     driver.get(url)
 #     return driver
 
+
 def chrome_options():
-    options.add_argument("--window-size=1920,1080");
-    options.add_argument("--disable-gpu");
-    options.add_argument("--disable-extensions");
-    options.add_argument("--proxy-server='direct://'");
-    options.add_argument("--proxy-bypass-list=*");
-    options.add_argument("--start-maximized");
-    options.add_argument("--headless");
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--proxy-server='direct://'")
+    options.add_argument("--proxy-bypass-list=*")
+    options.add_argument("--start-maximized")
+    options.add_argument("--headless")
     return options
 
 

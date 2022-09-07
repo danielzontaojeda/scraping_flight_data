@@ -14,7 +14,7 @@ def webscrape_azul():
     azul.get_flights changes list_airports
     """
     list_airports = input.get_airport_list()
-    azul.get_flights(list_airports)
+    azul.get_flights(list_airports, 30)
     # output_excel.write_file(flight_list)
 
 
@@ -23,8 +23,8 @@ def webscrape_gol(list_airports):
     output_excel.write_file(flight_list)
     flight_list = gol.get_flights(list_airports, 15)
     add_prices.insert_price(flight_list, 15)
-    flight_list = gol.get_flights(list_airports, 1)
-    add_prices.insert_price(flight_list, 1)
+    # flight_list = gol.get_flights(list_airports, 1)
+    # add_prices.insert_price(flight_list, 1)
 
 
 def webscrape_latam(list_airports):
@@ -32,8 +32,8 @@ def webscrape_latam(list_airports):
     output_excel.write_file(flight_list)
     flight_list = latam.get_flights(list_airports, 15)
     add_prices.insert_price(flight_list, 15)
-    flight_list = latam.get_flights(list_airports, 1)
-    add_prices.insert_price(flight_list, 1)
+    # flight_list = latam.get_flights(list_airports, 1)
+    # add_prices.insert_price(flight_list, 1)
 
 
 def main():

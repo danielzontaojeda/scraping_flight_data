@@ -1,0 +1,2 @@
+class NoFlightException(Exception):
+    pass
