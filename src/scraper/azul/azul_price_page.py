@@ -5,7 +5,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from scraping_flight_data.src.scraper.azul import external_apis_caller
+from scraping_flight_data.src.util import util_get_logger
 from selenium.common.exceptions import TimeoutException
+
+LOGGER = util_get_logger.get_logger(__name__)
 
 
 def get_flights_data(driver, airport, date, capacity_dict):
@@ -20,7 +23,7 @@ def get_flights_data(driver, airport, date, capacity_dict):
     except TimeoutException:
         element = driver.find_element(By.CSS_SELECTOR, 'div[id="tbl-depart-flights"]')
         if "Desculpe" in element.text:
-            return []
+            return None
         else:
             raise TimeoutException
     # elements = driver.find_elements(By.CSS_SELECTOR, 'div[class*="flight-item"]')
@@ -74,7 +77,7 @@ def get_data_details(flight_dict, details):
     for detail in details:
         string = detail.text
         string = string.replace("\n", " ")
-        print(string)
+        LOGGER.info(string)
         match = re.search(pattern, string)
         if match.group(2) != "IGU":
             stopover_list.append(match.group(2))
@@ -92,6 +95,7 @@ def price_string_to_float(string):
 def get_flight_dict(element, airport, date):
     string = element.text
     string = string.replace("\n", " ")
+    LOGGER.info(string)
     match = get_data_from_element(string)
     if not match:
         # TODO: do logs.

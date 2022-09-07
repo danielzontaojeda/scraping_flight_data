@@ -4,16 +4,18 @@ from datetime import datetime
 from scraping_flight_data.src.flight import airplane, airport, flight
 from scraping_flight_data.src.scraper.gol import scraper
 from scraping_flight_data.src.scraper.seatguru import gol_capacity
-from scraping_flight_data.src.util import util_datetime
+from scraping_flight_data.src.util import util_datetime, util_get_logger
 from scraping_flight_data.src.scraper.gol import get_token
 
+LOGGER = util_get_logger.get_logger(__name__)
 
-def get_flights(list_dict_airport: list[dict], days: int) -> list:
+def get_flights(list_dict_airport: list[dict], days: int) -> list[flight.Flight]:
     """Return list with flights from all airports in list_airport."""
     date = util_datetime.date_from_today(days)
     flight_list = []
     capacity_dict = gol_capacity.get_capacity_dict()
     token = get_token.get_token()
+    LOGGER.info(f'token = {token}')
     for dict_airport in list_dict_airport:
         for airport in dict_airport.keys():
             data_json = scraper.get_flight_list(date, airport, token)
@@ -30,7 +32,7 @@ def get_flights(list_dict_airport: list[dict], days: int) -> list:
 
 def get_flights_from_airport(
     itinerary: dict, capacity_dict: dict, dict_airport: dict, airport_code: str
-) -> list:
+) -> list[flight.Flight]:
     """Get flight information out of itinerary json."""
     flight_list = []
     for it in itinerary:
@@ -38,6 +40,7 @@ def get_flights_from_airport(
         airplane = get_airplane(it, capacity_dict)
         airport = get_airport(it, airport_code, dict_airport)
         flight = get_flight(airport, airplane, it, offers, dict_airport)
+        LOGGER.info(f'created flight: {flight}')
         flight_list.append(flight)
     return flight_list
 

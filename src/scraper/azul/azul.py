@@ -6,9 +6,9 @@ from requests.exceptions import ConnectionError
 from scraping_flight_data.src.file_manager import output_excel, add_prices
 from scraping_flight_data.src.flight import airport, airplane, flight
 from scraping_flight_data.src.scraper.azul import azul_price_page
-from scraping_flight_data.src.scraper.seatguru import azul_capacity
 from scraping_flight_data.src.scraper.azul.NoFlightException import NoFlightException
-from scraping_flight_data.src.util import util_datetime, util_selenium
+from scraping_flight_data.src.scraper.seatguru import azul_capacity
+from scraping_flight_data.src.util import util_get_logger, util_datetime, util_selenium
 from selenium.common.exceptions import (
     TimeoutException,
     NoSuchElementException,
@@ -21,6 +21,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 AZUL_HOMEPAGE = "https://www.voeazul.com.br/"
 SLEEP_TIME = 300
+LOGGER = util_get_logger.get_logger(__name__)
 
 
 def select_somente_ida(driver):
@@ -128,12 +129,12 @@ def create_flight(flight_dict):
 
 
 def error_handler(error, airport, list_airport: list[str] = None, sleep=False):
-    print(error)
+    LOGGER.error(error)
     if "NoFlightException" in error:
-        print(f"No flights for {airport}")
+        LOGGER.info(f"No flights for {airport}")
     else:
         list_airport.append(airport)
-        print(f"appended {airport}")
+        LOGGER.info(f"appended {airport}")
     if sleep:
         t.sleep(SLEEP_TIME)
 
@@ -142,7 +143,7 @@ def get_flights(list_airport: list[str], days):
     date = util_datetime.date_from_today(days)
     capacity_dict = azul_capacity.get_capacity_dict()
     for airport in list_airport:
-        print(f"---------------------{airport}-----------------------")
+        LOGGER.info(f"---------------------{airport}-----------------------")
         flight_list = []
         try:
             driver = util_selenium.start_browser(AZUL_HOMEPAGE)
@@ -154,11 +155,11 @@ def get_flights(list_airport: list[str], days):
                 raise NoFlightException
             for flight_dict in flight_data:
                 flight_list.append(create_flight(flight_dict))
+                LOGGER.info(f'flight created: {flight_list[-1]}')
         except IndexError:
             # Sometimes mobile site is loaded. In that case we try again without waiting.
             error_handler(traceback.format_exc(), airport, list_airport, sleep=False)
             driver.close()
-            print(list_airport)
             continue
         except (ConnectionError, TimeoutException, NoSuchElementException):
             error_handler(traceback.format_exc(), airport, list_airport, sleep=True)

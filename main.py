@@ -37,10 +37,10 @@ def webscrape_latam(list_airports):
 
 
 def main():
-    list_airports = input.get_airport_list()
-    list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
-    webscrape_gol(list_airports_dict)
-    webscrape_latam(list_airports_dict)
+    # list_airports = input.get_airport_list()
+    # list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
+    # webscrape_gol(list_airports_dict)
+    # webscrape_latam(list_airports_dict)
     webscrape_azul()
 
 
