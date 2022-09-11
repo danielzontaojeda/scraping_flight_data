@@ -1,4 +1,5 @@
 import requests
+from config import AIRPORT_ORIGIN
 
 
 def get_flight_list(date, airport: str, token) -> dict:
@@ -9,7 +10,9 @@ def get_flight_list(date, airport: str, token) -> dict:
     payload = (
         "{promocodebanner:false,destinationCountryToUSA:false,airSearch:{cabinClass:null,currency:null,pointOfSale:'BR',awardBooking:false,searchType:'BRANDED',promoCodes:[],originalItineraryParts:[{from:{code:'"
         + airport
-        + "',useNearbyLocations:false},to:{code:'IGU',useNearbyLocations:false},when:{date:'"
+        + "',useNearbyLocations:false},to:{code:'"
+        + AIRPORT_ORIGIN
+        + "',useNearbyLocations:false},when:{date:'"
         + date.isoformat()
         + ":00:00'},selectedOfferRef:null,plusMinusDays:null}],itineraryParts:[{from:{code:'"
         + airport
@@ -27,6 +30,4 @@ def get_flight_list(date, airport: str, token) -> dict:
     response = requests.request(
         "POST", url, data=payload, headers=headers, params=querystring
     )
-    # print(type(response.json()))
-    # return json.loads(response.text)
     return response.json()

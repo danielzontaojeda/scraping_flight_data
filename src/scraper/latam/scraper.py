@@ -4,6 +4,7 @@ import json
 import time
 from datetime import date
 from gzip import BadGzipFile
+from scraping_flight_data.config import AIRPORT_ORIGIN
 
 
 def get_flight_list(lookup_date: date, airport: str) -> dict:
@@ -19,7 +20,7 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
         "Accept": "*/*",
         "Accept-Language": "pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
         "Accept-Encoding": "gzip, deflate, br",
-        "Referer": "https://www.latamairlines.com/br/pt/oferta-voos?origin=GRU&inbound=null&outbound=2022-07-08T15%3A00%3A00.000Z&destination=IGU&adt=1&chd=0&inf=0&trip=OW&cabin=Economy&redemption=false&sort=RECOMMENDED",
+        "Referer": f"https://www.latamairlines.com/br/pt/oferta-voos?origin=GRU&inbound=null&outbound=2022-07-08T15%3A00%3A00.000Z&destination={AIRPORT_ORIGIN}&adt=1&chd=0&inf=0&trip=OW&cabin=Economy&redemption=false&sort=RECOMMENDED",
         "X-latam-App-Session-Id": "688fb7eb-93a9-4eb3-ad0a-9e4121efca7e",
         "Content-Type": "application/json",
         "X-latam-Action-Name": "search-result.flightselection.offers-search",
@@ -40,7 +41,7 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
 
     conn.request(
         "GET",
-        f"/bff/air-offers/offers/search?sort=RECOMMENDED&cabinType=Economy&origin={airport}&destination=IGU&inFlightDate=null&inFrom=null&inOfferId=null&outFlightDate=null&outFrom={date_str}&outOfferId=null&adult=1&child=0&infant=0&redemption=false",
+        f"/bff/air-offers/offers/search?sort=RECOMMENDED&cabinType=Economy&origin={airport}&destination={AIRPORT_ORIGIN}&inFlightDate=null&inFrom=null&inOfferId=null&outFlightDate=null&outFrom={date_str}&outOfferId=null&adult=1&child=0&infant=0&redemption=false",
         payload,
         headers,
     )
