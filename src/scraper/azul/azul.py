@@ -3,6 +3,7 @@ import traceback
 from datetime import datetime, time
 
 from requests.exceptions import ConnectionError
+from scraping_flight_data.config import AIRPORT_ORIGIN
 from scraping_flight_data.src.file_manager import output_excel, add_prices
 from scraping_flight_data.src.flight import airport, airplane, flight
 from scraping_flight_data.src.scraper.azul import azul_price_page
@@ -49,6 +50,7 @@ def insert_departure_field(driver, airport):
         EC.element_to_be_clickable((By.XPATH, '//*[@id="field-5-origin1"]'))
     )
     departure_field.clear()
+    # REC autocompletes to ERC
     if airport == "REC":
         airport = "RECI"
     departure_field.send_keys(airport, Keys.ENTER)
@@ -60,7 +62,7 @@ def insert_origin_field(driver):
         EC.element_to_be_clickable((By.XPATH, '//*[@id="field-6-destination1"]'))
     )
     arrival_field.clear()
-    arrival_field.send_keys("IGU", Keys.ENTER)
+    arrival_field.send_keys(AIRPORT_ORIGIN, Keys.ENTER)
 
 
 def insert_date_field(driver, date):
@@ -155,7 +157,7 @@ def get_flights(list_airport: list[str], days):
                 raise NoFlightException
             for flight_dict in flight_data:
                 flight_list.append(create_flight(flight_dict))
-                LOGGER.info(f'flight created: {flight_list[-1]}')
+                LOGGER.info(f"flight created: {flight_list[-1]}")
         except IndexError:
             # Sometimes mobile site is loaded. In that case we try again without waiting.
             error_handler(traceback.format_exc(), airport, list_airport, sleep=False)
@@ -168,16 +170,16 @@ def get_flights(list_airport: list[str], days):
             continue  # Can't close driver when WebDriverException occurs.
         except NoFlightException:
             error_handler(traceback.format_exc(), airport, sleep=True)
-        driver.close()
         if days == 30:
             output_excel.write_file(flight_list)
         else:
             add_prices.insert_price(flight_list, days)
+        driver.close()
         t.sleep(SLEEP_TIME)
 
 
 if __name__ == "__main__":
-    print(get_flights(["ERM", "GRU"], 31))
+    print(get_flights(["FLN"], 30))
     # get_flights(['GRU'])
     # get_flights(['CWB'])
     # get_flights(['GIG'])

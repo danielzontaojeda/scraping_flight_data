@@ -1,6 +1,6 @@
-from scraping_flight_data.src.scraper.gol import scraper
 from datetime import timedelta, date
-from scraping_flight_data.src.scraper.gol import get_token
+
+from scraping_flight_data.src.scraper.gol import scraper, get_token
 
 
 def test_get_flight_list():

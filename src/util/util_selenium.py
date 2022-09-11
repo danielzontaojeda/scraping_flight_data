@@ -1,9 +1,7 @@
 import undetected_chromedriver as uc
 from fake_useragent import UserAgent
+from scraping_flight_data.config import FIREFOX_BINARY_LOCATION
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
-FIREFOX_BINARY_LOCATION = r"C:\Program Files\Mozilla Firefox\firefox.exe"
 
 
 def start_browser(url) -> webdriver:
@@ -56,7 +54,7 @@ def chrome_options():
 
 def get_useragent():
     ua = UserAgent()
-    user_agent = ua.chrome
+    user_agent = ua.firefox
     return user_agent
 
 

@@ -1,6 +1,5 @@
-from scraping_flight_data.src.scraper.gol import gol
-from scraping_flight_data.src.flight import flight
 from scraping_flight_data.src import airport_dict
+from scraping_flight_data.src.scraper.gol import gol
 
 
 def test_get_flights():

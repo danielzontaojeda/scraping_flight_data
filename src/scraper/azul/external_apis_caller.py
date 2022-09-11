@@ -1,7 +1,14 @@
 from scraping_flight_data.src.scraper.seatguru import azul_capacity
-from scraping_flight_data.src.util import util_iatacode_lookup, util_ibge, util_distance
+from scraping_flight_data.src.util import (
+    util_iatacode_lookup,
+    util_ibge,
+    util_distance,
+    util_get_logger,
+)
 
-# TODO: distance, yield_pax
+LOGGER = util_get_logger.get_logger(__name__)
+
+
 def get_missing_data(flight_dict, capacity_dict):
     flight_dict["capacity"] = azul_capacity.get_capacity_for_model(
         flight_dict["airplane_model"], capacity_dict
@@ -12,7 +19,7 @@ def get_missing_data(flight_dict, capacity_dict):
     duration_list = flight_dict["duration_str"].split("h")
     duration = int(duration_list[0]) * 60 + int(duration_list[1])
     flight_dict["duration"] = duration
-    print(flight_dict)
+    LOGGER.info(flight_dict)
     return flight_dict
 
 

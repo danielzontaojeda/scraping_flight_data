@@ -1,12 +1,13 @@
 import re
 import time
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from scraping_flight_data.config import AIRPORT_ORIGIN
 from scraping_flight_data.src.scraper.azul import external_apis_caller
 from scraping_flight_data.src.util import util_get_logger
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 LOGGER = util_get_logger.get_logger(__name__)
 
@@ -70,7 +71,6 @@ def get_data_details(flight_dict, details):
     Get stopover info and airplane model from flight details page and
     adds into details_info dict.
     """
-    # pattern = r'\(.*?((\d+)?\w+).*\).*\((.*)\)'
     pattern = r"^.*?\(.*?(\w+\s?\w+\s?\w+).*\).*\((.*)\).*$"
     stopover_list = []
     airplane_model = ""
@@ -79,7 +79,7 @@ def get_data_details(flight_dict, details):
         string = string.replace("\n", " ")
         LOGGER.info(string)
         match = re.search(pattern, string)
-        if match.group(2) != "IGU":
+        if match.group(2) != AIRPORT_ORIGIN:
             stopover_list.append(match.group(2))
         airplane_model = match.group(1)
     flight_dict["stopover_list"] = stopover_list

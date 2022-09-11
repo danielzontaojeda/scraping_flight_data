@@ -1,21 +1,20 @@
-import sys
 from time import perf_counter
 
 from src import airport_dict
 from src.file_manager import input, output_excel, add_prices
+from src.scraper.azul import azul
 from src.scraper.gol import gol
 from src.scraper.latam import latam
+from src.util import util_get_logger
 
-from src.scraper.azul import azul
+LOGGER = util_get_logger(__name__)
 
 
 def webscrape_azul():
-    """
-    azul.get_flights changes list_airports
-    """
     list_airports = input.get_airport_list()
     azul.get_flights(list_airports, 30)
-    # output_excel.write_file(flight_list)
+    # azul.get_flights(list_airports, 15)
+    # azul.get_flights(list_airports, 1)
 
 
 def webscrape_gol(list_airports):
@@ -37,10 +36,10 @@ def webscrape_latam(list_airports):
 
 
 def main():
-    # list_airports = input.get_airport_list()
-    # list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
-    # webscrape_gol(list_airports_dict)
-    # webscrape_latam(list_airports_dict)
+    list_airports = input.get_airport_list()
+    list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
+    webscrape_gol(list_airports_dict)
+    webscrape_latam(list_airports_dict)
     webscrape_azul()
 
 
@@ -48,4 +47,5 @@ if __name__ == "__main__":
     start = perf_counter()
     main()
     end = perf_counter()
-    print(f"Tempo decorrido: {(end - start):.2f} segundos.")
+    LOGGER.info("Script ran succesfully.")
+    LOGGER.info(f"Time transpired: {(end - start):.2f} seconds.")

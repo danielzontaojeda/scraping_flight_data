@@ -1,5 +1,6 @@
 import time
 
+from scraping_flight_data.config import AIRPORT_ORIGIN
 from scraping_flight_data.src.util import util_get_logger
 from src.flight import airplane, airport, flight
 from src.scraper.latam import scraper
@@ -7,6 +8,7 @@ from src.scraper.seatguru import latam_capacity
 from src.util import util_datetime
 
 LOGGER = util_get_logger.get_logger(__name__)
+
 
 def get_flights(list_dict_airport: list[dict], days: int) -> list:
     """Return list with flights from all airports in list_airport"""
@@ -46,7 +48,7 @@ def get_flight_list(
             info_flights["itinerary"][i],
             distance,
         )
-        LOGGER.info(f'created flight: {flight}')
+        LOGGER.info(f"created flight: {flight}")
         flight_list.append(flight)
     return flight_list
 
@@ -85,7 +87,9 @@ def get_connections(itinerary: dict) -> list:
     """Return list with flight connections."""
     if len(itinerary) == 1:
         return None
-    return [it["destination"] for it in itinerary if it["destination"] != "IGU"]
+    return [
+        it["destination"] for it in itinerary if it["destination"] != AIRPORT_ORIGIN
+    ]
 
 
 def get_airport(summary: dict, airport_info: dict) -> airport.Airport:

@@ -1,6 +1,5 @@
 from datetime import time, date
 
-from scraping_flight_data.src.file_manager import add_prices
 from scraping_flight_data.src.flight import flight, airport, airplane
 
 airport_flight = airport.Airport(

@@ -1,5 +1,5 @@
-from scraping_flight_data.src.scraper.latam import latam
 from scraping_flight_data.src import airport_dict
+from scraping_flight_data.src.scraper.latam import latam
 
 
 def test_get_flights():

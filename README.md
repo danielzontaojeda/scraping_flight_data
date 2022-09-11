@@ -12,9 +12,4 @@
 
 `pip install requests airportsdata unidecode pytest selenium`
 
-## TODO
-
-* Add azul webscraping
-
-* Create airports database to remove aiportsdata dependency
-
+Insert origin airport and firefox binary location in `config.py`
