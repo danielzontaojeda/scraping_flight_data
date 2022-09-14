@@ -141,41 +141,42 @@ def error_handler(error, airport, list_airport: list[str] = None, sleep=False):
         t.sleep(SLEEP_TIME)
 
 
-def get_flights(list_airport: list[str], days):
+def get_flights(list_airport_dict: list[dict], days:int):
     date = util_datetime.date_from_today(days)
     capacity_dict = azul_capacity.get_capacity_dict()
-    for airport in list_airport:
-        LOGGER.info(f"---------------------{airport}, {days}-----------------------")
-        flight_list = []
-        try:
-            driver = util_selenium.start_browser(AZUL_HOMEPAGE)
-            go_to_price_page(driver, airport, date)
-            flight_data = azul_price_page.get_flights_data(
-                driver, airport, date, capacity_dict
-            )
-            if not flight_data:
-                raise NoFlightException
-            for flight_dict in flight_data:
-                flight_list.append(create_flight(flight_dict))
-                LOGGER.info(f"flight created: {flight_list[-1]}")
-        except IndexError:
-            # Sometimes mobile site is loaded. In that case we try again without waiting.
-            error_handler(traceback.format_exc(), airport, list_airport, sleep=False)
+    for dict_airport in list_airport_dict:
+        for airport in dict_airport.keys():
+            LOGGER.info(f"---------------------{airport}, {days}-----------------------")
+            flight_list = []
+            try:
+                driver = util_selenium.start_browser(AZUL_HOMEPAGE)
+                go_to_price_page(driver, airport, date)
+                flight_data = azul_price_page.get_flights_data(
+                    driver, airport, date, capacity_dict, dict_airport
+                )
+                if not flight_data:
+                    raise NoFlightException
+                for flight_dict in flight_data:
+                    flight_list.append(create_flight(flight_dict))
+                    LOGGER.info(f"flight created: {flight_list[-1]}")
+            except IndexError:
+                # Sometimes mobile site is loaded. In that case we try again without waiting.
+                error_handler(traceback.format_exc(), airport, list_airport, sleep=False)
+                driver.close()
+                continue
+            except (ConnectionError, TimeoutException, NoSuchElementException):
+                error_handler(traceback.format_exc(), airport, list_airport, sleep=True)
+            except WebDriverException:
+                error_handler(traceback.format_exc(), airport, list_airport, sleep=True)
+                continue  # Can't close driver when WebDriverException occurs.
+            except NoFlightException:
+                error_handler(traceback.format_exc(), airport, sleep=True)
+            if days == 30:
+                output_excel.write_file(flight_list)
+            else:
+                add_prices.insert_price(flight_list, days)
             driver.close()
-            continue
-        except (ConnectionError, TimeoutException, NoSuchElementException):
-            error_handler(traceback.format_exc(), airport, list_airport, sleep=True)
-        except WebDriverException:
-            error_handler(traceback.format_exc(), airport, list_airport, sleep=True)
-            continue  # Can't close driver when WebDriverException occurs.
-        except NoFlightException:
-            error_handler(traceback.format_exc(), airport, sleep=True)
-        if days == 30:
-            output_excel.write_file(flight_list)
-        else:
-            add_prices.insert_price(flight_list, days)
-        driver.close()
-        t.sleep(SLEEP_TIME)
+            t.sleep(SLEEP_TIME)
 
 
 if __name__ == "__main__":

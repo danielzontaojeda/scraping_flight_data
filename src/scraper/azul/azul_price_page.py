@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 LOGGER = util_get_logger.get_logger(__name__)
 
 
-def get_flights_data(driver, airport, date, capacity_dict):
+def get_flights_data(driver, airport, date, capacity_dict, dict_airport):
     time.sleep(10)
     flight_data = []
     try:
@@ -27,7 +27,6 @@ def get_flights_data(driver, airport, date, capacity_dict):
             return None
         else:
             raise TimeoutException
-    # elements = driver.find_elements(By.CSS_SELECTOR, 'div[class*="flight-item"]')
     for element in elements:
         flight_dict = get_flight_dict(element, airport, date)
         if flight_dict:
@@ -36,7 +35,7 @@ def get_flights_data(driver, airport, date, capacity_dict):
             else:
                 get_data_airplane(flight_dict, element)
             flight_dict = external_apis_caller.get_missing_data(
-                flight_dict, capacity_dict
+                flight_dict, capacity_dict, dict_airport
             )
             flight_data.append(flight_dict)
     return flight_data

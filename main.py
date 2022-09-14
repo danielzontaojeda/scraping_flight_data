@@ -10,10 +10,9 @@ from src.util import util_get_logger, post_scraping
 LOGGER = util_get_logger.get_logger(__name__)
 
 
-def webscrape_azul():
-    list_airports = input.get_airport_list()
-    azul.get_flights(list_airports, 30)
-    azul.get_flights(list_airports, 15)
+def webscrape_azul(list_airports_dict: list[dict]):
+    azul.get_flights(list_airports_dict, 30)
+    # azul.get_flights(list_airports, 15)
     # azul.get_flights(list_airports, 1)
 
 
@@ -39,11 +38,11 @@ def main():
     list_airports = input.get_airport_list()
     list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
     webscrape_azul(list_airports_dict)
-    webscrape_gol(list_airports_dict)
-    webscrape_latam(list_airports_dict)
-    post_scraping.create_csv_backup()
-    post_scraping.delete_old_backup()
-    post_scraping.delete_old_log()
+    # webscrape_gol(list_airports_dict)
+    # webscrape_latam(list_airports_dict)
+    # post_scraping.create_csv_backup()
+    # post_scraping.delete_old_backup()
+    # post_scraping.delete_old_log()
 
 
 if __name__ == "__main__":
