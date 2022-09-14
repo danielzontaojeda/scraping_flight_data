@@ -5,7 +5,7 @@ from src.file_manager import input, output_excel, add_prices
 from src.scraper.azul import azul
 from src.scraper.gol import gol
 from src.scraper.latam import latam
-from src.util import util_get_logger
+from src.util import util_get_logger, post_scraping
 
 LOGGER = util_get_logger.get_logger(__name__)
 
@@ -40,7 +40,10 @@ def main():
     list_airports = input.get_airport_list()
     list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
     webscrape_gol(list_airports_dict)
-    # webscrape_latam(list_airports_dict)
+    webscrape_latam(list_airports_dict)
+    post_scraping.create_csv_backup()
+    post_scraping.delete_old_backup()
+    post_scraping.delete_old_log()
 
 
 if __name__ == "__main__":

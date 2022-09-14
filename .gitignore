@@ -11,6 +11,7 @@ test/
 logs/
 gecko*
 run.bat
+secrets.json
 
 # C extensions
 *.so

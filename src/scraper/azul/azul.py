@@ -145,7 +145,7 @@ def get_flights(list_airport: list[str], days):
     date = util_datetime.date_from_today(days)
     capacity_dict = azul_capacity.get_capacity_dict()
     for airport in list_airport:
-        LOGGER.info(f"---------------------{airport}-----------------------")
+        LOGGER.info(f"---------------------{airport}, {days}-----------------------")
         flight_list = []
         try:
             driver = util_selenium.start_browser(AZUL_HOMEPAGE)
@@ -179,7 +179,7 @@ def get_flights(list_airport: list[str], days):
 
 
 if __name__ == "__main__":
-    print(get_flights(["FLN"], 30))
+    print(get_flights(["CWB"], 16))
     # get_flights(['GRU'])
     # get_flights(['CWB'])
     # get_flights(['GIG'])
