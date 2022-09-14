@@ -67,9 +67,16 @@ def edit_row(row: dict, list_flights: list[flight.Flight], days: int) -> None:
             and row["company_name"] == f.airplane.company_name
         ):
             row[f"price_{days}d"] = f.price
-            price_med = (
-                float(row["price_30d"])
-                + float(row["price_15d"])
-                + float(row["price_1d"])
-            ) / 3
+            if days == 15:
+                price_med = (
+                    float(row["price_30d"])
+                    + float(row["price_15d"])
+                    + float(row["price_1d"])
+                ) / 2
+            else:
+                price_med = (
+                    float(row["price_30d"])
+                    + float(row["price_15d"])
+                    + float(row["price_1d"])
+                ) / 3
             row["price_med"] = f"{price_med:.2f}"

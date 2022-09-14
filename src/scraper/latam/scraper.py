@@ -5,6 +5,9 @@ import time
 from datetime import date
 from gzip import BadGzipFile
 from scraping_flight_data.config import AIRPORT_ORIGIN
+from scraping_flight_data.src.util import util_get_logger
+
+LOGGER = util_get_logger.get_logger(__name__)
 
 
 def get_flight_list(lookup_date: date, airport: str) -> dict:
@@ -50,13 +53,16 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
     data = res.read()
     try:
         data_json = json.loads(gzip.decompress(data))["content"]
+        LOGGER.info(f"data_json inside try: {data_json}")
     # sometimes data comes only half compressed?
     except BadGzipFile:
         data = gzip.compress(data)
         decompressed_data = gzip.decompress(data)
+        LOGGER.info(f"data_json inside except: {decompressed_data}")
         if b"error" in decompressed_data:
             time.sleep(120)
             data_json = get_flight_list(lookup_date, airport)
         else:
             data_json = json.loads(decompressed_data)["content"]
+
     return data_json

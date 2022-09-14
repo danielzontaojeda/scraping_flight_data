@@ -7,13 +7,13 @@ from src.scraper.gol import gol
 from src.scraper.latam import latam
 from src.util import util_get_logger
 
-LOGGER = util_get_logger(__name__)
+LOGGER = util_get_logger.get_logger(__name__)
 
 
 def webscrape_azul():
     list_airports = input.get_airport_list()
     azul.get_flights(list_airports, 30)
-    # azul.get_flights(list_airports, 15)
+    azul.get_flights(list_airports, 15)
     # azul.get_flights(list_airports, 1)
 
 
@@ -22,8 +22,8 @@ def webscrape_gol(list_airports):
     output_excel.write_file(flight_list)
     flight_list = gol.get_flights(list_airports, 15)
     add_prices.insert_price(flight_list, 15)
-    # flight_list = gol.get_flights(list_airports, 1)
-    # add_prices.insert_price(flight_list, 1)
+    flight_list = gol.get_flights(list_airports, 1)
+    add_prices.insert_price(flight_list, 1)
 
 
 def webscrape_latam(list_airports):
@@ -31,16 +31,16 @@ def webscrape_latam(list_airports):
     output_excel.write_file(flight_list)
     flight_list = latam.get_flights(list_airports, 15)
     add_prices.insert_price(flight_list, 15)
-    # flight_list = latam.get_flights(list_airports, 1)
-    # add_prices.insert_price(flight_list, 1)
+    flight_list = latam.get_flights(list_airports, 1)
+    add_prices.insert_price(flight_list, 1)
 
 
 def main():
+    webscrape_azul()
     list_airports = input.get_airport_list()
     list_airports_dict = airport_dict.get_airport_dict_list(list_airports)
     webscrape_gol(list_airports_dict)
-    webscrape_latam(list_airports_dict)
-    webscrape_azul()
+    # webscrape_latam(list_airports_dict)
 
 
 if __name__ == "__main__":
@@ -48,4 +48,4 @@ if __name__ == "__main__":
     main()
     end = perf_counter()
     LOGGER.info("Script ran succesfully.")
-    LOGGER.info(f"Time transpired: {(end - start):.2f} seconds.")
+    LOGGER.info(f"Elapsed time: {(end - start):.2f} seconds.")
