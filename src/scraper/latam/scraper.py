@@ -1,8 +1,10 @@
 from datetime import date, timedelta
+import time
 
 import requests
 from scraping_flight_data.config import AIRPORT_ORIGIN
 from scraping_flight_data.src.util import util_get_logger
+from retry import retry
 
 LOGGER = util_get_logger.get_logger(__name__)
 
@@ -17,6 +19,7 @@ def get_coockie(session) -> str:
     return cookie
 
 
+@retry(exceptions=KeyError, delay=10, logger=LOGGER)
 def get_flight_list(lookup_date: date, airport: str) -> dict:
     session = requests.Session()
     cookie = get_coockie(session)
@@ -67,8 +70,13 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
     }
 
     response = session.get(url, headers=headers, params=querystring)
-
     return response.json()["content"]
+    # try:
+    #     return response.json()["content"]
+    # except KeyError:
+    #     LOGGER.error(f'key error. response.json: {response.json()}')
+    #     time.sleep(60)
+    #     return get_flight_list(lookup_date, airport)
 
 
 if __name__ == "__main__":

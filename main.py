@@ -12,7 +12,7 @@ LOGGER = util_get_logger.get_logger(__name__)
 
 def webscrape_azul(list_airports_dict: list[dict]):
     azul.get_flights(list_airports_dict, 30)
-    azul.get_flights(list_airports, 15)
+    azul.get_flights(list_airports_dict, 15)
     # azul.get_flights(list_airports, 1)
 
 

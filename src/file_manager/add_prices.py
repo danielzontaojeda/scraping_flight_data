@@ -4,6 +4,9 @@ from time import sleep
 
 from scraping_flight_data.src.file_manager import output_excel
 from scraping_flight_data.src.flight import flight
+from scraping_flight_data.src.util import util_get_logger
+
+LOGGER = util_get_logger.get_logger(__name__)
 
 
 def insert_price(list_flights: list[flight.Flight], days: int) -> None:
@@ -54,7 +57,7 @@ def insert_price(list_flights: list[flight.Flight], days: int) -> None:
 
 
 def edit_row(row: dict, list_flights: list[flight.Flight], days: int) -> None:
-    """ "
+    """
     Find flight from list_flights that matches row data and insert price at
     price column from days param.
     """
@@ -66,6 +69,7 @@ def edit_row(row: dict, list_flights: list[flight.Flight], days: int) -> None:
             and row["time_arrival"] == f.time_arrival.strftime("%H:%M:%S")
             and row["company_name"] == f.airplane.company_name
         ):
+            LOGGER.info(f'found {f} in {row.values()}')
             row[f"price_{days}d"] = f.price
             if days == 15:
                 price_med = (

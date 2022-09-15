@@ -130,14 +130,18 @@ def create_flight(flight_dict):
     )
 
 
-def error_handler(error, airport, list_airport: list[str] = None, sleep=False):
+def error_handler(error, airport, list_airport_dict: list[str] = None, sleep=False):
     LOGGER.error(error)
     if "NoFlightException" in error:
         LOGGER.info(f"No flights for {airport}")
     else:
-        list_airport.append(airport)
+        for airport_dict in list_airport_dict:
+            if airport in airport_dict:
+                list_airport_dict.append(airport_dict)
+                break
         LOGGER.info(f"appended {airport}")
     if sleep:
+        LOGGER.info(f'sleeping for {SLEEP_TIME}')
         t.sleep(SLEEP_TIME)
 
 
@@ -147,7 +151,7 @@ def get_flights(list_airport_dict: list[dict], days: int):
     for dict_airport in list_airport_dict:
         for airport in dict_airport.keys():
             LOGGER.info(
-                f"---------------------{airport}, {days}-----------------------"
+                f"---------------------{airport} {days}-----------------------"
             )
             flight_list = []
             try:
@@ -161,17 +165,14 @@ def get_flights(list_airport_dict: list[dict], days: int):
                 for flight_dict in flight_data:
                     flight_list.append(create_flight(flight_dict))
                     LOGGER.info(f"flight created: {flight_list[-1]}")
+                t.sleep(SLEEP_TIME)
             except IndexError:
                 # Sometimes mobile site is loaded. In that case we try again without waiting.
-                error_handler(
-                    traceback.format_exc(), airport, list_airport, sleep=False
-                )
-                driver.close()
-                continue
+                error_handler(traceback.format_exc(), airport, list_airport_dict, sleep=False)
             except (ConnectionError, TimeoutException, NoSuchElementException):
-                error_handler(traceback.format_exc(), airport, list_airport, sleep=True)
+                error_handler(traceback.format_exc(), airport, list_airport_dict, sleep=True)
             except WebDriverException:
-                error_handler(traceback.format_exc(), airport, list_airport, sleep=True)
+                error_handler(traceback.format_exc(), airport, list_airport_dict, sleep=True)
                 continue  # Can't close driver when WebDriverException occurs.
             except NoFlightException:
                 error_handler(traceback.format_exc(), airport, sleep=True)
@@ -179,8 +180,10 @@ def get_flights(list_airport_dict: list[dict], days: int):
                 output_excel.write_file(flight_list)
             else:
                 add_prices.insert_price(flight_list, days)
-            driver.close()
-            t.sleep(SLEEP_TIME)
+            try:
+                driver.close()
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":
