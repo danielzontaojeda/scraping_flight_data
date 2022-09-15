@@ -141,12 +141,14 @@ def error_handler(error, airport, list_airport: list[str] = None, sleep=False):
         t.sleep(SLEEP_TIME)
 
 
-def get_flights(list_airport_dict: list[dict], days:int):
+def get_flights(list_airport_dict: list[dict], days: int):
     date = util_datetime.date_from_today(days)
     capacity_dict = azul_capacity.get_capacity_dict()
     for dict_airport in list_airport_dict:
         for airport in dict_airport.keys():
-            LOGGER.info(f"---------------------{airport}, {days}-----------------------")
+            LOGGER.info(
+                f"---------------------{airport}, {days}-----------------------"
+            )
             flight_list = []
             try:
                 driver = util_selenium.start_browser(AZUL_HOMEPAGE)
@@ -161,7 +163,9 @@ def get_flights(list_airport_dict: list[dict], days:int):
                     LOGGER.info(f"flight created: {flight_list[-1]}")
             except IndexError:
                 # Sometimes mobile site is loaded. In that case we try again without waiting.
-                error_handler(traceback.format_exc(), airport, list_airport, sleep=False)
+                error_handler(
+                    traceback.format_exc(), airport, list_airport, sleep=False
+                )
                 driver.close()
                 continue
             except (ConnectionError, TimeoutException, NoSuchElementException):
