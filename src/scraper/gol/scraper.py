@@ -1,7 +1,12 @@
 import requests
 from config import AIRPORT_ORIGIN
+from retry import retry
+from scraping_flight_data.src.util import util_get_logger
+
+LOGGER = util_get_logger.get_logger(__name__)
 
 
+@retry(delay=10, logger=LOGGER)
 def get_flight_list(date, airport: str, token) -> dict:
     url = "https://b2c-api.voegol.com.br/api/sabre-default/flights"
 

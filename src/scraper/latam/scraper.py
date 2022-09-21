@@ -1,10 +1,9 @@
 from datetime import date, timedelta
-import time
 
 import requests
+from retry import retry
 from scraping_flight_data.config import AIRPORT_ORIGIN
 from scraping_flight_data.src.util import util_get_logger
-from retry import retry
 
 LOGGER = util_get_logger.get_logger(__name__)
 

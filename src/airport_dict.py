@@ -1,7 +1,7 @@
 from src.util.util_distance import get_distance
+from src.util.util_get_logger import get_logger
 from src.util.util_iatacode_lookup import get_city_by_iata
 from src.util.util_ibge import get_uf_info
-from src.util.util_get_logger import get_logger
 
 LOGGER = get_logger(__name__)
 
@@ -16,7 +16,7 @@ def get_airport_dict_list(airport_list: list[str]) -> dict:
         d["uf_info"] = get_uf_info(d["city_name"])
         airport_dict = {airport: d}
         airport_dict_list.append(airport_dict)
-    LOGGER.info(f'airport_dict_list: {airport_dict_list}')
+    LOGGER.info(f"airport_dict_list: {airport_dict_list}")
     return airport_dict_list
 
 

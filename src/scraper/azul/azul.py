@@ -141,7 +141,7 @@ def error_handler(error, airport, list_airport_dict: list[str] = None, sleep=Fal
                 break
         LOGGER.info(f"appended {airport}")
     if sleep:
-        LOGGER.info(f'sleeping for {SLEEP_TIME}')
+        LOGGER.info(f"sleeping for {SLEEP_TIME}")
         t.sleep(SLEEP_TIME)
 
 
@@ -150,9 +150,7 @@ def get_flights(list_airport_dict: list[dict], days: int):
     capacity_dict = azul_capacity.get_capacity_dict()
     for dict_airport in list_airport_dict:
         for airport in dict_airport.keys():
-            LOGGER.info(
-                f"---------------------{airport} {days}-----------------------"
-            )
+            LOGGER.info(f"---------------------{airport} {days}-----------------------")
             flight_list = []
             try:
                 driver = util_selenium.start_browser(AZUL_HOMEPAGE)
@@ -168,11 +166,17 @@ def get_flights(list_airport_dict: list[dict], days: int):
                 t.sleep(SLEEP_TIME)
             except IndexError:
                 # Sometimes mobile site is loaded. In that case we try again without waiting.
-                error_handler(traceback.format_exc(), airport, list_airport_dict, sleep=False)
+                error_handler(
+                    traceback.format_exc(), airport, list_airport_dict, sleep=False
+                )
             except (ConnectionError, TimeoutException, NoSuchElementException):
-                error_handler(traceback.format_exc(), airport, list_airport_dict, sleep=True)
+                error_handler(
+                    traceback.format_exc(), airport, list_airport_dict, sleep=True
+                )
             except WebDriverException:
-                error_handler(traceback.format_exc(), airport, list_airport_dict, sleep=True)
+                error_handler(
+                    traceback.format_exc(), airport, list_airport_dict, sleep=True
+                )
                 continue  # Can't close driver when WebDriverException occurs.
             except NoFlightException:
                 error_handler(traceback.format_exc(), airport, sleep=True)

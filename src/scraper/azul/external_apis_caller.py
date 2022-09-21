@@ -1,8 +1,5 @@
 from scraping_flight_data.src.scraper.seatguru import azul_capacity
 from scraping_flight_data.src.util import (
-    util_iatacode_lookup,
-    util_ibge,
-    util_distance,
     util_get_logger,
 )
 

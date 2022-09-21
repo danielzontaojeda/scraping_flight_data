@@ -69,7 +69,7 @@ def edit_row(row: dict, list_flights: list[flight.Flight], days: int) -> None:
             and row["time_arrival"] == f.time_arrival.strftime("%H:%M:%S")
             and row["company_name"] == f.airplane.company_name
         ):
-            LOGGER.info(f'found {f} in {row.values()}')
+            LOGGER.info(f"found {f} in {row.values()}")
             row[f"price_{days}d"] = f.price
             if days == 15:
                 price_med = (
