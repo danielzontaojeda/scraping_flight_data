@@ -68,14 +68,8 @@ def get_flight_list(lookup_date: date, airport: str) -> dict:
         "TE": "trailers",
     }
 
-    response = session.get(url, headers=headers, params=querystring)
+    response = session.get(url, headers=headers, params=querystring, timeout=10)
     return response.json()["content"]
-    # try:
-    #     return response.json()["content"]
-    # except KeyError:
-    #     LOGGER.error(f'key error. response.json: {response.json()}')
-    #     time.sleep(60)
-    #     return get_flight_list(lookup_date, airport)
 
 
 if __name__ == "__main__":

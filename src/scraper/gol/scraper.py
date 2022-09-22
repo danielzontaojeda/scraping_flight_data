@@ -6,7 +6,7 @@ from scraping_flight_data.src.util import util_get_logger
 LOGGER = util_get_logger.get_logger(__name__)
 
 
-@retry(delay=10, logger=LOGGER)
+@retry(delay=10, jitter=(1,5), logger=LOGGER)
 def get_flight_list(date, airport: str, token) -> dict:
     url = "https://b2c-api.voegol.com.br/api/sabre-default/flights"
 
@@ -33,6 +33,9 @@ def get_flight_list(date, airport: str, token) -> dict:
     }
 
     response = requests.request(
-        "POST", url, data=payload, headers=headers, params=querystring
+        "POST", url, data=payload, headers=headers, params=querystring, timeout=10
     )
-    return response.json()
+    if response.json():
+        return response.json()
+    else:
+        raise Exception
