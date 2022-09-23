@@ -35,7 +35,7 @@ def get_capacity_dict() -> dict:
 
 if __name__ == "__main__":
     capacity_dict = get_capacity_dict()
-    print(get_capacity_for_model("7M8", capacity_dict))
+    print(get_capacity_for_model("AT7", capacity_dict))
     print(get_capacity_for_model("73G", capacity_dict))
     print(get_capacity_for_model("738", capacity_dict))
     print(get_capacity_for_model("737", capacity_dict))

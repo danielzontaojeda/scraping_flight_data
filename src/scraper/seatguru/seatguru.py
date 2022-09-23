@@ -26,8 +26,8 @@ def clean_soup(seats_info, string_to_delete) -> list:
 
 
 def create_dict(seats_info: list) -> dict:
-    """Organizes seats_info data into a dict:
-
+    """
+    Organizes seats_info data into a dict:
     {plane_model: capacity}
     """
     currentKey = seats_info[0]
@@ -40,5 +40,5 @@ def create_dict(seats_info: list) -> dict:
         except ValueError:
             currentKey = string
             capacity[currentKey] = 0
-    capacity["AT7"] = 70
+    capacity["(AT7)"] = 70
     return capacity
