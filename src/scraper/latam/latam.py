@@ -15,16 +15,17 @@ def get_flights(list_dict_airport: list[dict], days: int) -> list:
     flight_list = []
     capacity_dict = latam_capacity.get_capacity_dict()
     for dict_airport in list_dict_airport:
-        for airport in dict_airport.keys():
-            airport_info = dict_airport[airport]
-            data_json = scraper.get_flight_list(
-                util_datetime.date_from_today(days), airport
-            )
-            info_flights = get_flight_info(data_json)
-            flight_list.extend(
-                get_flight_list(info_flights, capacity_dict, airport_info)
-            )
-            time.sleep(10)
+        airport = list(dict_airport.keys())[0]
+        LOGGER.info(f"searching flight for {airport}")
+        airport_info = dict_airport[airport]
+        data_json = scraper.get_flight_list(
+            util_datetime.date_from_today(days), airport
+        )
+        info_flights = get_flight_info(data_json)
+        flight_list.extend(
+            get_flight_list(info_flights, capacity_dict, airport_info)
+        )
+        time.sleep(10)
     return flight_list
 
 

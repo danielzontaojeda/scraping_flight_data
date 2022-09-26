@@ -18,16 +18,17 @@ def get_flights(list_dict_airport: list[dict], days: int) -> list[flight.Flight]
     token = get_token.get_token()
     LOGGER.info(f"token = {token}")
     for dict_airport in list_dict_airport:
-        for airport in dict_airport.keys():
-            data_json = scraper.get_flight_list(date, airport, token)
-            itinerary = data_json["response"]["airSearchResults"]["brandedResults"][
-                "itineraryPartBrands"
-            ][0]
-            flights_from_airport = get_flights_from_airport(
-                itinerary, capacity_dict, dict_airport, airport
-            )
-            flight_list.extend(flights_from_airport)
-            time.sleep(10)
+        airport = list(dict_airport.keys())[0]
+        LOGGER.info(f"searching flight for {airport}")
+        data_json = scraper.get_flight_list(date, airport, token)
+        itinerary = data_json["response"]["airSearchResults"]["brandedResults"][
+            "itineraryPartBrands"
+        ][0]
+        flights_from_airport = get_flights_from_airport(
+            itinerary, capacity_dict, dict_airport, airport
+        )
+        flight_list.extend(flights_from_airport)
+        time.sleep(10)
     return flight_list
 
 

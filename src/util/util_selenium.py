@@ -14,14 +14,14 @@ def start_browser(url) -> webdriver:
     options.binary_location = FIREFOX_BINARY_LOCATION
     # driver = webdriver.Firefox(options=options, firefox_profile=profile)
     driver = webdriver.Firefox(options=options)
+    driver.set_page_load_timeout(30)
     driver.get(url)
-    driver.delete_all_cookies()
+    # driver.delete_all_cookies()
     driver.execute_script(
         "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
     )
     driver.execute_script("window.focus();")
     driver.maximize_window()
-    driver.set_page_load_timeout(10)
     return driver
 
 
