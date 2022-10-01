@@ -11,9 +11,10 @@ LOGGER = util_get_logger.get_logger(__name__)
 
 
 def webscrape_azul(list_airports_dict: list[dict]):
-    azul.get_flights(list_airports_dict, 30)
-    azul.get_flights(list_airports_dict, 15)
-    # azul.get_flights(list_airports, 1)
+    list_airports_dict_copy = list_airports_dict.copy()
+    azul.get_flights(list_airports_dict_copy, 1)
+    azul.get_flights(list_airports_dict_copy, 15)
+    azul.get_flights(list_airports_dict_copy, 30)
 
 
 def webscrape_gol(list_airports):

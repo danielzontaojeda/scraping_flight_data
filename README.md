@@ -32,11 +32,13 @@ Some examples of output created from flight going to Foz do Iguaçu (IGU)
 
 * retry
 
-`pip install requests airportsdata unidecode pytest selenium retry`
+* fake_useragent
+
+`pip install requests airportsdata unidecode pytest selenium retry fake_useragent`
 
 ## Setup
 
-A file `secrets.json` needs to be created in the root folder with:
+* A file `secrets.json` needs to be created in the root folder with:
 
 ```
 {
@@ -48,5 +50,6 @@ A file `secrets.json` needs to be created in the root folder with:
 
 with the relevant data inserted.
 
-Insert origin airport and firefox binary location in `config.py`
+* Insert origin airport and firefox binary location in `config.py`
 
+* geckodriver needs to be in PATH

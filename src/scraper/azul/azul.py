@@ -153,7 +153,7 @@ def get_flights(list_airport_dict: list[dict], days: int):
             LOGGER.info(f"---------------------{airport} {days}-----------------------")
             flight_list = []
             try:
-                driver = util_selenium.start_browser(AZUL_HOMEPAGE)
+                driver = util_selenium.start_browser(AZUL_HOMEPAGE, headless=True)
                 go_to_price_page(driver, airport, date)
                 flight_data = azul_price_page.get_flights_data(
                     driver, airport, date, capacity_dict, dict_airport

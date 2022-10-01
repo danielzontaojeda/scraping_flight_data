@@ -4,8 +4,10 @@ from scraping_flight_data.config import FIREFOX_BINARY_LOCATION
 from selenium import webdriver
 
 
-def start_browser(url) -> webdriver:
+def start_browser(url, headless=False) -> webdriver:
     options = webdriver.FirefoxOptions()
+    if headless:
+        options.add_argument('-headless')
     profile = webdriver.FirefoxProfile()
     profile.set_preference("general.useragent.override", get_useragent())
     options.set_preference("dom.webnotifications.serviceworker.enabled", False)
