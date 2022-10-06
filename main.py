@@ -11,28 +11,27 @@ LOGGER = util_get_logger.get_logger(__name__)
 
 
 def webscrape_azul(list_airports_dict: list[dict]):
-    list_airports_dict_copy = list_airports_dict.copy()
-    azul.get_flights(list_airports_dict_copy, 1)
-    azul.get_flights(list_airports_dict_copy, 15)
-    azul.get_flights(list_airports_dict_copy, 30)
+    azul.get_flights(list_airports_dict.copy(), 1)
+    azul.get_flights(list_airports_dict.copy(), 15)
+    azul.get_flights(list_airports_dict.copy(), 30)
 
 
 def webscrape_gol(list_airports):
-    flight_list = gol.get_flights(list_airports, 30)
-    output_excel.write_file(flight_list)
-    flight_list = gol.get_flights(list_airports, 15)
-    add_prices.insert_price(flight_list, 15)
     flight_list = gol.get_flights(list_airports, 1)
     add_prices.insert_price(flight_list, 1)
+    flight_list = gol.get_flights(list_airports, 15)
+    add_prices.insert_price(flight_list, 15)
+    flight_list = gol.get_flights(list_airports, 30)
+    output_excel.write_file(flight_list)
 
 
 def webscrape_latam(list_airports):
-    flight_list = latam.get_flights(list_airports, 30)
-    output_excel.write_file(flight_list)
-    flight_list = latam.get_flights(list_airports, 15)
-    add_prices.insert_price(flight_list, 15)
     flight_list = latam.get_flights(list_airports, 1)
     add_prices.insert_price(flight_list, 1)
+    flight_list = latam.get_flights(list_airports, 15)
+    add_prices.insert_price(flight_list, 15)
+    flight_list = latam.get_flights(list_airports, 30)
+    output_excel.write_file(flight_list)
 
 
 def main():
