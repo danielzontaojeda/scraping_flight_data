@@ -1,0 +1,7 @@
+requests
+airportsdata
+unidecode
+pytest
+selenium
+retry
+fake_useragent
